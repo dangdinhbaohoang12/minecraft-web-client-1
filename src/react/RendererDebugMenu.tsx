@@ -14,7 +14,7 @@ export default () => {
 
 const RendererDebugMenu = ({ worldRenderer }: { worldRenderer: WorldRendererCommon }) => {
   const { reactiveDebugParams } = worldRenderer
-  const { chunksRenderAboveEnabled, chunksRenderBelowEnabled, chunksRenderDistanceEnabled, chunksRenderAboveOverride, chunksRenderBelowOverride, chunksRenderDistanceOverride, stopRendering, disableEntities } = useSnapshot(reactiveDebugParams)
+  const { chunksRenderAboveEnabled, chunksRenderBelowEnabled, chunksRenderDistanceEnabled, chunksRenderAboveOverride, chunksRenderBelowOverride, chunksRenderDistanceOverride, stopRendering, disableEntities, caveCullingDebug, smartCull } = useSnapshot(reactiveDebugParams)
 
   const { rendererPerfDebugOverlay } = useSnapshot(options)
 
@@ -36,6 +36,16 @@ const RendererDebugMenu = ({ worldRenderer }: { worldRenderer: WorldRendererComm
         onClick={() => { reactiveDebugParams.disableEntities = !reactiveDebugParams.disableEntities }}
         overlayColor={disableEntities ? 'red' : undefined}
       />
+      <Button
+        label={smartCull ? 'Disable Smart Cull' : 'Enable Smart Cull'}
+        onClick={() => { reactiveDebugParams.smartCull = !smartCull }}
+        overlayColor={smartCull ? undefined : 'orange'}
+      />
+      <Button
+        label={caveCullingDebug ? 'Hide Cave Cull Debug' : 'Show Cave Cull Debug'}
+        onClick={() => { reactiveDebugParams.caveCullingDebug = !reactiveDebugParams.caveCullingDebug }}
+        overlayColor={caveCullingDebug ? 'cyan' : undefined}
+      />
     </div>
 
     <div className={styles.column}>
@@ -54,7 +64,7 @@ const RendererDebugMenu = ({ worldRenderer }: { worldRenderer: WorldRendererComm
           min={0}
           max={256}
           value={chunksRenderAboveOverride ?? 0}
-          style={{ width: '100%', }}
+          style={{ width: '100%' }}
           updateValue={(value) => {
             const roundedValue = roundToStep(value, 16)
             reactiveDebugParams.chunksRenderAboveOverride = roundedValue
@@ -78,7 +88,7 @@ const RendererDebugMenu = ({ worldRenderer }: { worldRenderer: WorldRendererComm
           label="Chunks Below"
           min={0}
           max={256}
-          style={{ width: '100%', }}
+          style={{ width: '100%' }}
           value={chunksRenderBelowOverride ?? 0}
           updateValue={(value) => {
             const roundedValue = roundToStep(value, 16)
@@ -89,31 +99,6 @@ const RendererDebugMenu = ({ worldRenderer }: { worldRenderer: WorldRendererComm
           valueDisplay={roundToStep(reactiveDebugParams.chunksRenderBelowOverride ?? 0, 16)}
         />
       </div>
-
-      {/* <div className={styles.sliderGroup}>
-        <Button
-          label={chunksRenderDistanceEnabled ? 'Disable Distance Override' : 'Enable Distance Override'}
-          onClick={() => {
-            const newState = !chunksRenderDistanceEnabled
-            reactiveDebugParams.chunksRenderDistanceEnabled = newState
-            if (newState) { reactiveDebugParams.chunksRenderDistanceOverride = 8 } else { reactiveDebugParams.chunksRenderDistanceOverride = undefined }
-          }}
-        />
-        <Slider
-          label="Render Distance"
-          min={1}
-          max={32}
-          style={{ width: '100%', }}
-          value={chunksRenderDistanceOverride ?? 8}
-          updateValue={(value) => {
-            const roundedValue = Math.round(value)
-            reactiveDebugParams.chunksRenderDistanceOverride = roundedValue
-          }}
-          disabledReason={chunksRenderDistanceEnabled ? undefined : 'Override not enabled'}
-          unit=""
-          valueDisplay={Math.round(reactiveDebugParams.chunksRenderDistanceOverride ?? 8)}
-        />
-      </div> */}
     </div>
   </div>
 }
