@@ -84,7 +84,7 @@
     "minecraft-data": "0.0.0",
     "minecraft-inventory": "^0.1.47",
     "minecraft-protocol": "github:PrismarineJS/node-minecraft-protocol#master",
-    "minecraft-renderer": "^0.1.91",
+    "minecraft-renderer": "github:zardoy/minecraft-renderer#9b55a87562d19e80c7027e07686f1ccaf5a80372",
     "mineflayer-item-map-downloader": "github:zardoy/mineflayer-item-map-downloader",
     "mojangson": "^2.0.4",
     "net-browserify": "github:zardoy/prismarinejs-net-browserify",
@@ -207,7 +207,8 @@
       "react": "^18.2.0",
       "prismarine-chunk": "github:zardoy/prismarine-chunk#master",
       "prismarine-item": "latest",
-      "valtio": "1.13.2"
+      "valtio": "1.13.2",
+      "minecraft-renderer": "github:zardoy/minecraft-renderer#9b55a87562d19e80c7027e07686f1ccaf5a80372"
     },
     "updateConfig": {
       "ignoreDependencies": [
