@@ -28,15 +28,14 @@ jobs:
       - name: Pull Vercel Environment Information
         run: |
           rm -rf .vercel
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --scope=zaro
-
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Write Release Info
         run: |
           echo "{\"latestTag\": \"$(git rev-parse --short $GITHUB_SHA)\", \"isCommit\": true}" > assets/release.json
       - name: Download Generated Sounds map
         run: node scripts/downloadSoundsMap.mjs
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --scope=zaro
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         env:
           CONFIG_JSON_SOURCE: BUNDLED
           LOCAL_CONFIG_FILE: config.mcraft-only.json
@@ -67,9 +66,8 @@ jobs:
       - name: Set deployment aliases
         run: |
           for alias in $(echo ${{ vars.TEST_PREVIEW_DOMAIN }} | tr "," "\n"); do
-            vercel alias set ${{ steps.deploy.outputs.stdout }} $alias --token=${{ secrets.VERCEL_TOKEN }} --scope=zaro
+            vercel alias set ${{ steps.deploy.outputs.stdout }} $alias --token=${{ secrets.VERCEL_TOKEN }}
           done
-
       - name: Create Release Pull Request
         uses: actions/github-script@v6
         with:
@@ -81,7 +79,6 @@ jobs:
               base: 'release',
               state: 'open'
             });
-
             if (pulls.length === 0) {
               await github.rest.pulls.create({
                 owner: context.repo.owner,
