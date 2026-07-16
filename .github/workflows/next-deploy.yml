@@ -36,7 +36,7 @@ jobs:
       - name: Download Generated Sounds map
         run: node scripts/downloadSoundsMap.mjs
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --scope=zaro
         env:
           CONFIG_JSON_SOURCE: BUNDLED
           LOCAL_CONFIG_FILE: config.mcraft-only.json
