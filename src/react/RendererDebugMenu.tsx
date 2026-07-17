@@ -37,10 +37,10 @@ const RendererDebugMenu = ({ worldRenderer }: { worldRenderer: WorldRendererComm
         overlayColor={disableEntities ? 'red' : undefined}
       />
       <Button
-  label={smartCull ? 'Disable Smart Cull' : 'Enable Smart Cull'}
-  onClick={() => { reactiveDebugParams.smartCull = !smartCull }}
-  overlayColor={smartCull ? undefined : 'orange'}
-/>
+        label={smartCull ? 'Disable Smart Cull' : 'Enable Smart Cull'}
+        onClick={() => { reactiveDebugParams.smartCull = !smartCull }}
+        overlayColor={smartCull ? undefined : 'orange'}
+      />
       <Button
         label={caveCullingDebug ? 'Hide Cave Cull Debug' : 'Show Cave Cull Debug'}
         onClick={() => { reactiveDebugParams.caveCullingDebug = !reactiveDebugParams.caveCullingDebug }}
