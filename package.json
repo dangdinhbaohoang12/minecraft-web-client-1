@@ -219,7 +219,8 @@
     "patchedDependencies": {
       "pixelarticons@1.8.1": "patches/pixelarticons@1.8.1.patch",
       "mineflayer-item-map-downloader@1.2.0": "patches/mineflayer-item-map-downloader@1.2.0.patch",
-      "minecraft-protocol": "patches/minecraft-protocol@1.66.0.patch"
+      "minecraft-protocol": "patches/minecraft-protocol@1.66.0.patch",
+      "mineflayer-mouse@0.1.28": "patches/mineflayer-mouse@0.1.28.patch"
     },
     "ignoredBuiltDependencies": [
       "canvas",
@@ -238,3 +239,4 @@
   },
   "packageManager": "pnpm@10.32.1"
 }
+
