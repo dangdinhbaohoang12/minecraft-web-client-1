@@ -152,7 +152,7 @@
     "https-browserify": "^1.0.0",
     "mc-assets": "^0.2.72",
     "mineflayer": "0.0.0",
-    "mineflayer-mouse": "0.1.28",
+    "mineflayer-mouse": "github:hellios-12/mineflayer-mouse#5630e60ee307477e1f6d8277a7dcb86bf4430135",
     "npm-run-all": "^4.1.5",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
@@ -218,8 +218,7 @@
     "patchedDependencies": {
       "pixelarticons@1.8.1": "patches/pixelarticons@1.8.1.patch",
       "mineflayer-item-map-downloader@1.2.0": "patches/mineflayer-item-map-downloader@1.2.0.patch",
-      "minecraft-protocol": "patches/minecraft-protocol@1.66.0.patch",
-      "mineflayer-mouse@0.1.28": "patches/mineflayer-mouse@0.1.28.patch"
+      "minecraft-protocol": "patches/minecraft-protocol@1.66.0.patch"
     },
     "ignoredBuiltDependencies": [
       "canvas",
@@ -237,4 +236,3 @@
   },
   "packageManager": "pnpm@10.32.1"
 }
-
