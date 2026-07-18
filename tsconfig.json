@@ -17,14 +17,14 @@
         "skipLibCheck": true,
         "experimentalDecorators": true,
         "strictBindCallApply": true,
-        // this the only options that allows smooth transition from js to ts (by not dropping types from js files)
-        // however might need to consider includeing *only needed libraries* instead of using this
         "maxNodeModuleJsDepth": 1,
         "strictNullChecks": true,
+        "types": ["node"],
+        "typeRoots": ["node_modules/@types"]
     },
     "include": [
         "src",
-        "cypress",
+        "cypress"
     ],
     "exclude": [
         "node_modules"
