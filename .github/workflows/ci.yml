@@ -19,7 +19,7 @@ jobs:
           # cache: "pnpm"
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-      - run: pnpm install
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm build-single-file
       - name: Store minecraft.html size
         run: |
