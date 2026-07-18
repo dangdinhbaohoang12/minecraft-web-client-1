@@ -30,9 +30,6 @@ patchedDependencies:
   mineflayer-item-map-downloader@1.2.0:
     hash: a731ebbace2d8790c973ab3a5ba33494a6e9658533a9710dd8ba36f86db061ad
     path: patches/mineflayer-item-map-downloader@1.2.0.patch
-  mineflayer-mouse@0.1.28:
-    hash: 4005ca1a8e0131bdfc5a028c859716a2fc5ced7ea229e8e9a285283bf86d324a
-    path: patches/mineflayer-mouse@0.1.28.patch
   pixelarticons@1.8.1:
     hash: 533230072bc402f425c86abd3d0356fe087b14cab2a254d93f419b083f2d8dfa
     path: patches/pixelarticons@1.8.1.patch
@@ -77,6 +74,9 @@ importers:
       '@types/wicg-file-system-access':
         specifier: ^2023.10.2
         version: 2023.10.5
+      '@vercel/analytics':
+        specifier: ^2.0.1
+        version: 2.0.1(react@18.3.1)
       '@xmcl/text-component':
         specifier: ^2.1.3
         version: 2.1.3
@@ -358,8 +358,8 @@ importers:
         specifier: github:zardoy/mineflayer#gen-the-master
         version: https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf(encoding@0.1.13)
       mineflayer-mouse:
-        specifier: 0.1.28
-        version: 0.1.28
+        specifier: github:hellios-12/mineflayer-mouse#5630e60ee307477e1f6d8277a7dcb86bf4430135
+        version: https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/5630e60ee307477e1f6d8277a7dcb86bf4430135
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -3245,6 +3245,35 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
+  '@vercel/analytics@2.0.1':
+    resolution: {integrity: sha512-MTQG6V9qQrt1tsDeF+2Uoo5aPjqbVPys1xvnIftXSJYG2SrwXRHnqEvVoYID7BTruDz4lCd2Z7rM1BdkUehk2g==}
+    peerDependencies:
+      '@remix-run/react': ^2
+      '@sveltejs/kit': ^1 || ^2
+      next: '>= 13'
+      nuxt: '>= 3'
+      react: ^18.2.0
+      svelte: '>= 4'
+      vue: ^3
+      vue-router: ^4
+    peerDependenciesMeta:
+      '@remix-run/react':
+        optional: true
+      '@sveltejs/kit':
+        optional: true
+      next:
+        optional: true
+      nuxt:
+        optional: true
+      react:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+      vue-router:
+        optional: true
+
   '@vitejs/plugin-react@3.1.0':
     resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -4183,15 +4212,6 @@ packages:
 
   debug@4.4.0:
     resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-
-  debug@4.4.1:
-    resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -6204,6 +6224,10 @@ packages:
   mineflayer-mouse@0.1.28:
     resolution: {integrity: sha512-31r73CqU7eiv8cQSVA+NMR0WfA8Qs+p6of+Bd7ApWzR4a56W6fgfY3MExNmxxbb1/w9IbxTcMhDbcoKmE/5+nw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  mineflayer-mouse@https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/5630e60ee307477e1f6d8277a7dcb86bf4430135:
+    resolution: {tarball: https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/5630e60ee307477e1f6d8277a7dcb86bf4430135}
+    version: 0.0.0-dev
 
   mineflayer@https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf:
     resolution: {tarball: https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf}
@@ -8796,7 +8820,7 @@ snapshots:
       '@babel/traverse': 7.26.9
       '@babel/types': 7.26.9
       convert-source-map: 2.0.0
-      debug: 4.4.0(supports-color@8.1.1)
+      debug: 4.4.3(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -8848,7 +8872,7 @@ snapshots:
       '@babel/core': 7.26.9
       '@babel/helper-compilation-targets': 7.26.5
       '@babel/helper-plugin-utils': 7.26.5
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@8.1.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -9473,7 +9497,7 @@ snapshots:
       '@babel/parser': 7.26.9
       '@babel/template': 7.26.9
       '@babel/types': 7.26.9
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -9843,7 +9867,7 @@ snapshots:
   '@eslint/eslintrc@2.1.4':
     dependencies:
       ajv: 6.12.6
-      debug: 4.4.0(supports-color@8.1.1)
+      debug: 4.4.3(supports-color@8.1.1)
       espree: 9.6.1
       globals: 13.24.0
       ignore: 5.3.2
@@ -9894,7 +9918,7 @@ snapshots:
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
-      debug: 4.4.0(supports-color@8.1.1)
+      debug: 4.4.3(supports-color@8.1.1)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -12012,7 +12036,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 6.1.0(typescript@5.5.4)
       '@typescript-eslint/utils': 6.1.0(eslint@8.57.1)(typescript@5.5.4)
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       eslint: 8.57.1
       ts-api-utils: 1.4.3(typescript@5.5.4)
     optionalDependencies:
@@ -12030,7 +12054,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.1.0
       '@typescript-eslint/visitor-keys': 6.1.0
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.7.1
@@ -12044,7 +12068,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/visitor-keys': 6.21.0
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
       minimatch: 9.0.3
@@ -12059,7 +12083,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.26.0
       '@typescript-eslint/visitor-keys': 8.26.0
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -12110,6 +12134,10 @@ snapshots:
       eslint-visitor-keys: 4.2.0
 
   '@ungap/structured-clone@1.3.0': {}
+
+  '@vercel/analytics@2.0.1(react@18.3.1)':
+    optionalDependencies:
+      react: 18.3.1
 
   '@vitejs/plugin-react@3.1.0(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
@@ -13309,13 +13337,11 @@ snapshots:
     optionalDependencies:
       supports-color: 8.1.1
 
-  debug@4.4.1:
+  debug@4.4.3(supports-color@8.1.1):
     dependencies:
       ms: 2.1.3
-
-  debug@4.4.3:
-    dependencies:
-      ms: 2.1.3
+    optionalDependencies:
+      supports-color: 8.1.1
 
   decamelize-keys@1.1.1:
     dependencies:
@@ -13422,7 +13448,7 @@ snapshots:
   detect-port@1.6.1:
     dependencies:
       address: 1.2.2
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -13808,7 +13834,7 @@ snapshots:
 
   esbuild-register@3.6.0(esbuild@0.18.20):
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       esbuild: 0.18.20
     transitivePeerDependencies:
       - supports-color
@@ -14265,7 +14291,7 @@ snapshots:
 
   extract-zip@2.0.1(supports-color@8.1.1):
     dependencies:
-      debug: 4.4.0(supports-color@8.1.1)
+      debug: 4.4.3(supports-color@8.1.1)
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -14794,7 +14820,7 @@ snapshots:
   https-proxy-agent@4.0.0:
     dependencies:
       agent-base: 5.1.1
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -15739,7 +15765,7 @@ snapshots:
   micromark@4.0.2:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@8.1.1)
       decode-named-character-reference: 1.1.0
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.3
@@ -15869,7 +15895,16 @@ snapshots:
   mineflayer-mouse@0.1.28:
     dependencies:
       change-case: 5.4.4
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@8.1.1)
+      prismarine-item: 1.18.0
+      prismarine-world: https://codeload.github.com/zardoy/prismarine-world/tar.gz/ab2146c9933eef3247c3f64446de4ccc2c484c7c
+    transitivePeerDependencies:
+      - supports-color
+
+  mineflayer-mouse@https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/5630e60ee307477e1f6d8277a7dcb86bf4430135:
+    dependencies:
+      change-case: 5.4.4
+      debug: 4.4.3(supports-color@8.1.1)
       prismarine-item: 1.18.0
       prismarine-world: https://codeload.github.com/zardoy/prismarine-world/tar.gz/ab2146c9933eef3247c3f64446de4ccc2c484c7c
     transitivePeerDependencies:
@@ -16504,7 +16539,7 @@ snapshots:
     dependencies:
       '@azure/msal-node': 2.16.2
       '@xboxreplay/xboxlive-auth': 5.1.0
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@8.1.1)
       smart-buffer: 4.2.0
       uuid-1345: 1.0.2
     transitivePeerDependencies:
@@ -16577,7 +16612,7 @@ snapshots:
 
   prismarine-realms@1.3.2(encoding@0.1.13):
     dependencies:
-      debug: 4.4.0(supports-color@8.1.1)
+      debug: 4.4.3(supports-color@8.1.1)
       node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
@@ -16771,7 +16806,7 @@ snapshots:
   puppeteer-core@2.1.1:
     dependencies:
       '@types/mime-types': 2.1.4
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       extract-zip: 1.7.0
       https-proxy-agent: 4.0.0
       mime: 2.6.0
@@ -18397,7 +18432,7 @@ snapshots:
   vite-node@0.34.6(@types/node@22.13.9)(terser@5.39.0):
     dependencies:
       cac: 6.7.14
-      debug: 4.4.0(supports-color@8.1.1)
+      debug: 4.4.3(supports-color@8.1.1)
       mlly: 1.7.4
       pathe: 1.1.2
       picocolors: 1.1.1
