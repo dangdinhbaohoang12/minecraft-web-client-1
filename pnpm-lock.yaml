@@ -357,9 +357,6 @@ importers:
       mineflayer:
         specifier: github:zardoy/mineflayer#gen-the-master
         version: https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf(encoding@0.1.13)
-      mineflayer-mouse:
-        specifier: 0.1.28
-        version: 0.1.28
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
