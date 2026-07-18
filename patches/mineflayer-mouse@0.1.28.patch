@@ -1,5 +1,5 @@
 diff --git a/dist/blockPlacePrediction.js b/dist/blockPlacePrediction.js
-index 15d76f2..f596030 100644
+index 15d76f214a57e3759c49177ccd5b04f87d3495ad..f5960300a4cc28da95dfad2020c5c57a41fc35ad 100644
 --- a/dist/blockPlacePrediction.js
 +++ b/dist/blockPlacePrediction.js
 @@ -95,8 +95,16 @@ const botTryPlaceBlockPrediction = (bot, cursorBlock, faceNum, delta, doWorldUpd
