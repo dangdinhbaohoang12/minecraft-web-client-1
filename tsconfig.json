@@ -7,7 +7,7 @@
         "jsx": "react-jsx",
         "allowSyntheticDefaultImports": true,
         "noEmit": true,
-        "resolveJsonModule": false,
+        "resolveJsonModule": true,
         "strictFunctionTypes": true,
         "noImplicitAny": false,
         "noFallthroughCasesInSwitch": true,
