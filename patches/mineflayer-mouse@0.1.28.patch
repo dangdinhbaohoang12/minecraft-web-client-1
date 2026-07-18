@@ -1,0 +1,22 @@
+diff --git a/dist/blockPlacePrediction.js b/dist/blockPlacePrediction.js
+index 15d76f2..f596030 100644
+--- a/dist/blockPlacePrediction.js
++++ b/dist/blockPlacePrediction.js
+@@ -95,8 +95,16 @@ const botTryPlaceBlockPrediction = (bot, cursorBlock, faceNum, delta, doWorldUpd
+                 doUpdate();
+             }
+         }
++        return true;
+     }
+-    return true;
++    // Held item doesn't map to any real block (e.g. iron ingot, tools, food) - nothing
++    // was actually placed, so this must NOT be reported as a successful prediction.
++    // Returning true here previously caused a spurious 'mouseBlockPlaced' event and
++    // treated a plain interaction (right-click on Stone/Crafting Table/etc. with a
++    // non-block item or empty hand) as if a block had been placed, without ever
++    // calling setBlockStateId - leaving renderer-side consumers of that event acting
++    // on a block that was never actually updated.
++    return false;
+ };
+ exports.botTryPlaceBlockPrediction = botTryPlaceBlockPrediction;
+ const isBlockIntersectsWithEntities = (entities, position, blockShapes) => {
