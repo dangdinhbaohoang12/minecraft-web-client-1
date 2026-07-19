@@ -131,15 +131,15 @@ const openAutoFillLogin = async (mode: 'login' | 'register' | 'changepassword' |
 
 export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFormatPart, formatOptions?: MessageFormatOptions } & ComponentProps<'span'>) => {
 
-const color = part.color ?? 'white'
+  const color = part.color ?? 'white'
 
-const isItalic = part.italic === true
-const isBold = part.bold === true
-const isUnderlined = part.underlined === true
-const isStrike = part.strikethrough === true
-const isObfuscated = part.obfuscated === true
+  const isItalic = part.italic === true
+  const isBold = part.bold === true
+  const isUnderlined = part.underlined === true
+  const isStrike = part.strikethrough === true
+  const isObfuscated = part.obfuscated === true
 
-const text = part.text
+  const text = part.text
 const clickEvent = part.clickEvent
 const hoverEvent = part.hoverEvent
 
