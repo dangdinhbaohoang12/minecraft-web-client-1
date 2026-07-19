@@ -59,8 +59,13 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       return str
     }
   } catch (err: any) {
-    // SỬA DÒNG 142: Thay thế hoàn toàn mọi logic check reportError cũ bằng console.error chuẩn hóa của Node/Browser
-    console.error('Failed to parse message hover:', err?.message || err)
+    // @ts-ignore
+    if (typeof reportError !== 'undefined') {
+      // @ts-ignore
+      reportError('Failed to parse message hover: ' + err.message)
+    } else {
+      console.error('Failed to parse message hover:', err)
+    }
     return undefined
   }
 }
