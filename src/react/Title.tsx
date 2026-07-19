@@ -38,18 +38,32 @@ const TitleBase = ({
     }
   }, [openTitle, openActionBar])
 
+  // Định nghĩa các biến thể (variants) để xử lý thời gian fadeIn và fadeOut riêng biệt chuẩn cấu trúc framer-motion
+  const animationVariants = {
+    initial: { opacity: 0 },
+    animate: { 
+      opacity: 1,
+      transition: {
+        duration: transitionTimes?.fadeIn ? transitionTimes.fadeIn / 1000 : defaultFadeIn
+      }
+    },
+    exit: { 
+      opacity: 0,
+      transition: {
+        duration: transitionTimes?.fadeOut ? transitionTimes.fadeOut / 1000 : defaultFadeOut
+      }
+    }
+  }
+
   return (
     <div className='title-container'>
       <AnimatePresence>
         {openTitle && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: transitionTimes?.fadeIn ? transitionTimes.fadeIn / 1000 : defaultFadeIn,
-              exit: { duration: transitionTimes?.fadeOut ? transitionTimes.fadeOut / 1000 : defaultFadeOut }
-            }}
+            variants={animationVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
             <h1 className='message-title'>
               <MessageFormattedString message={title} />
@@ -63,13 +77,10 @@ const TitleBase = ({
       <AnimatePresence>
         {openActionBar && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: transitionTimes?.fadeIn ? transitionTimes.fadeIn / 1000 : defaultFadeIn,
-              exit: { duration: transitionTimes?.fadeOut ? transitionTimes.fadeOut / 1000 : defaultFadeOut }
-            }}
+            variants={animationVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
             <div className='message-action-bar'>
               <MessageFormattedString message={actionBar} />
