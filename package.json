@@ -86,6 +86,7 @@
     "minecraft-protocol": "github:PrismarineJS/node-minecraft-protocol#master",
     "minecraft-renderer": "^0.1.91",
     "mineflayer-item-map-downloader": "github:zardoy/mineflayer-item-map-downloader",
+    "mineflayer-mouse": "github:hellios-12/mineflayer-mouse#built",
     "mojangson": "^2.0.4",
     "net-browserify": "github:zardoy/prismarinejs-net-browserify",
     "node-gzip": "^1.1.2",
