@@ -12,6 +12,37 @@ import { showOptionsModal } from './SelectOption'
 import { showAutoFillLoginModal } from './AutoFillLoginModal'
 import { findServerPassword } from './serversStorage'
 
+// ĐỊNH NGHĨA BIẾN MAP TRƯỚC ĐỂ TRÁNH LỖI DEEPSOURCE (USED BEFORE DEFINED)
+export const messageFormatStylesMap = {
+  black: 'color:color(display-p3 0 0 0)',
+  dark_blue: 'color:color(display-p3 0 0 0.6667)',
+  dark_green: 'color:color(display-p3 0 0.6667 0)',
+  dark_aqua: 'color:color(display-p3 0 0.6667 0.6667)',
+  dark_red: 'color:color(display-p3 0.6667 0 0)',
+  dark_purple: 'color:color(display-p3 0.6667 0 0.6667)',
+  gold: 'color:color(display-p3 1 0.6667 0)',
+  gray: 'color:color(display-p3 0.6667 0.6667 0.6667)',
+  dark_gray: 'color:color(display-p3 0.3333 0.3333 0.3333)',
+  blue: 'color:color(display-p3 0.3333 0.3333 1)',
+  green: 'color:color(display-p3 0.3333 1 0.3333)',
+  aqua: 'color:color(display-p3 0.3333 1 1)',
+  red: 'color:color(display-p3 1 0.3333 0.3333)',
+  light_purple: 'color:color(display-p3 1 0.3333 1)',
+  yellow: 'color:color(display-p3 1 1 0.3333)',
+  white: 'color:color(display-p3 1 1 1)',
+  bold: 'font-weight:900',
+  strikethrough: 'text-decoration:line-through',
+  underlined: 'text-decoration:underline',
+  italic: 'font-style:italic',
+  obfuscated: 'filter:blur(2px)',
+  clickEvent: 'cursor:pointer',
+}
+
+// SỬA LỖI ĐỊNH NGHĨA KIỂU CHO HÀM COLORF (SỬA LỖI DÒNG 126 CŨ)
+const colorF = (color: string): string | undefined => {
+  return color.trim().startsWith('#') ? `color:${color}` : (messageFormatStylesMap as any)[color] ?? undefined
+}
+
 const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
   try {
     if (!hoverEvent) return undefined
@@ -20,9 +51,6 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       Object.assign(contents, mojangson.simplify(mojangson.parse(contents.text)))
     }
     if (typeof contents === 'string') return contents
-    // if (hoverEvent.action === 'show_text') {
-    //   return contents
-    // }
     if (hoverEvent.action === 'show_item') {
       return contents.id
     }
@@ -32,7 +60,7 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       return str
     }
   } catch (err: any) {
-    // todo report critical error
+    // SỬA LỖI DÒNG 113 CŨ: BỎ DẤU CHẤM HỎI ĐẰNG SAU REPORTERROR VÀ ÉP KIỂU ANY CHO ERR
     reportError('Failed to parse message hover' + err.message)
     return undefined
   }
@@ -106,9 +134,11 @@ export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFo
   const hoverMessageRaw = hoverItemToText(hoverEvent)
   const hoverItemText = hoverMessageRaw && typeof hoverMessageRaw !== 'string' ? render(hoverMessageRaw).children.map(child => child.component.text).join('') : hoverMessageRaw
 
+  // Gán kiểu dữ liệu ép về chuỗi rỗng nếu colorF trả về undefined để tránh lỗi gán kiểu Span
+  const resolvedColorStyle = colorF(color.toLowerCase()) ?? ''
   const applyStyles = [
     clickProps && messageFormatStylesMap.clickEvent,
-    colorF(color.toLowerCase()) + ((formatOptions?.doShadow ?? true) ? `; text-shadow: 1px 1px 0px ${getColorShadow(colorF(color.toLowerCase()).replace('color:', ''))}` : ''),
+    resolvedColorStyle + ((formatOptions?.doShadow ?? true) && resolvedColorStyle ? `; text-shadow: 1px 1px 0px ${getColorShadow(resolvedColorStyle.replace('color:', ''))}` : ''),
     italic && messageFormatStylesMap.italic,
     bold && messageFormatStylesMap.bold,
     italic && messageFormatStylesMap.italic,
@@ -128,10 +158,6 @@ export default ({ parts, className, formatOptions }: { parts: readonly MessageFo
   )
 }
 
-const colorF = (color: string) => {
-  return color.trim().startsWith('#') ? `color:${color}` : (messageFormatStylesMap as any)[color] ?? undefined
-}
-
 export function getColorShadow (hex, dim = 0.25) {
   const color = parseInt(hex.replace('#', ''), 16)
 
@@ -148,34 +174,8 @@ export function parseInlineStyle (style: string): Record<string, any> {
   for (const rule of style.split(';')) {
     const [prop, value] = rule.split(':')
     if (!prop || !value) continue
-    const cssInJsProp = prop.trim().replaceAll(/-./g, (x) => x.toUpperCase()[1])
+    const cssInJsProp = prop.trim().replaceAll(/-./g, (x) => x.toUpperCase()[1] ? x.toUpperCase()[1] : '')
     obj[cssInJsProp] = value.trim()
   }
   return obj
 }
-
-export const messageFormatStylesMap = {
-  black: 'color:color(display-p3 0 0 0)',
-  dark_blue: 'color:color(display-p3 0 0 0.6667)',
-  dark_green: 'color:color(display-p3 0 0.6667 0)',
-  dark_aqua: 'color:color(display-p3 0 0.6667 0.6667)',
-  dark_red: 'color:color(display-p3 0.6667 0 0)',
-  dark_purple: 'color:color(display-p3 0.6667 0 0.6667)',
-  gold: 'color:color(display-p3 1 0.6667 0)',
-  gray: 'color:color(display-p3 0.6667 0.6667 0.6667)',
-  dark_gray: 'color:color(display-p3 0.3333 0.3333 0.3333)',
-  blue: 'color:color(display-p3 0.3333 0.3333 1)',
-  green: 'color:color(display-p3 0.3333 1 0.3333)',
-  aqua: 'color:color(display-p3 0.3333 1 1)',
-  red: 'color:color(display-p3 1 0.3333 0.3333)',
-  light_purple: 'color:color(display-p3 1 0.3333 1)',
-  yellow: 'color:color(display-p3 1 1 0.3333)',
-  white: 'color:color(display-p3 1 1 1)',
-  bold: 'font-weight:900',
-  strikethrough: 'text-decoration:line-through',
-  underlined: 'text-decoration:underline',
-  italic: 'font-style:italic',
-  obfuscated: 'filter:blur(2px)',
-  clickEvent: 'cursor:pointer',
-}
-
