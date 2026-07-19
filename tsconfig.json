@@ -19,7 +19,7 @@
         "strictBindCallApply": true,
         "maxNodeModuleJsDepth": 1,
         "strictNullChecks": true,
-        "types": ["node"],
+        "types": ["node", "gapi"],
         "typeRoots": ["node_modules/@types"]
     },
     "include": [
