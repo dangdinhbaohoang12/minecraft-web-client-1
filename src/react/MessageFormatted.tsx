@@ -60,14 +60,12 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
     }
   } catch (err: any) {
     // @ts-expect-error
-    if (typeof reportError !== 'undefined') {
-      // @ts-expect-error
-      reportError('Failed to parse message hover: ' + err.message)
-    } else {
-      console.error('Failed to parse message hover:', err)
-    }
-    return undefined
-  }
+   const reportErrorFn = (globalThis as any).reportError
+    // @ts-expect-error
+    if (reportErrorFn) {
+  reportErrorFn('Failed to parse message hover: ' + err.message)
+}   else {
+  console.error('Failed to parse message hover:', err)
 }
 
 const clickEventToProps = (clickEvent: MessageFormatPart['clickEvent']) => {
