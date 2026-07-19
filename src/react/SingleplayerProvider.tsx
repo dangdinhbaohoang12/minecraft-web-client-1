@@ -1,4 +1,3 @@
-declare const gapi: any;
 import fs from 'fs'
 import { proxy, subscribe, useSnapshot } from 'valtio'
 import { useEffect, useRef, useState } from 'react'
