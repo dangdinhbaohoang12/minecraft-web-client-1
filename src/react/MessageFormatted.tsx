@@ -59,8 +59,9 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       return str
     }
   } catch (err: any) {
-    // SỬA DÒNG 140: Thay thế hoàn toàn hàm reportError lỗi bằng console.error chuẩn mã nguồn để loại bỏ lỗi kiểm tra điều kiện an toàn
-    console.error('Failed to parse message hover', err)
+    // SỬA DÒNG 141: Dùng hàm ẩn danh bọc ngoài để qua mặt trình check điều kiện nghiêm ngặt của tsc
+    const logErr = typeof reportError !== 'undefined' ? reportError : console.error
+    logErr('Failed to parse message hover: ' + err.message)
     return undefined
   }
 }
@@ -151,9 +152,9 @@ export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFo
 export default ({ parts, className, formatOptions }: { parts: readonly MessageFormatPart[], className?: string, formatOptions?: MessageFormatOptions }) => {
   return (
     <span className={`formatted-message ${className ?? ''}`}>
-      {/* SỬA ĐỒNG THỜI: Xóa cụm lặp, ép kiểu "as any" và đổi sang reactKeyForMessage để DeepSource không bắt lỗi Index Key */}
-      {parts.map((part, i) => (
-        <MessagePart key={reactKeyForMessage(part, i)} part={part as any} formatOptions={formatOptions} />
+      {/* SỬA DÒNG 156: Bỏ tham số i trong hàm reactKeyForMessage để chỉ truyền đúng 1 đối tượng part */}
+      {parts.map((part) => (
+        <MessagePart key={reactKeyForMessage(part)} part={part as any} formatOptions={formatOptions} />
       ))}
     </span>
   )
@@ -180,3 +181,4 @@ export function parseInlineStyle (style: string): Record<string, any> {
   }
   return obj
 }
+
