@@ -131,25 +131,47 @@ const openAutoFillLogin = async (mode: 'login' | 'register' | 'changepassword' |
 
 export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFormatPart, formatOptions?: MessageFormatOptions } & ComponentProps<'span'>) => {
 
-  const { color: _color, italic, bold, underlined, strikethrough, text, clickEvent, hoverEvent, obfuscated } = part
-  const color = _color ?? 'white'
+const color = part.color ?? 'white'
 
-  const clickProps = clickEventToProps(clickEvent)
-  const hoverMessageRaw = hoverItemToText(hoverEvent)
-  const hoverItemText = hoverMessageRaw && typeof hoverMessageRaw !== 'string' ? render(hoverMessageRaw).children.map(child => child.component.text).join('') : hoverMessageRaw
+const isItalic = part.italic === true
+const isBold = part.bold === true
+const isUnderlined = part.underlined === true
+const isStrike = part.strikethrough === true
+const isObfuscated = part.obfuscated === true
 
-  const resolvedColorStyle = colorF(color.toLowerCase()) ?? ''
-  const applyStyles = [
-    clickProps && messageFormatStylesMap.clickEvent,
-    resolvedColorStyle + ((formatOptions?.doShadow ?? true) && resolvedColorStyle ? `; text-shadow: 1px 1px 0px ${getColorShadow(resolvedColorStyle.replace('color:', ''))}` : ''),
-    italic && messageFormatStylesMap.italic,
-    bold && messageFormatStylesMap.bold,
-    italic && messageFormatStylesMap.italic,
-    underlined && messageFormatStylesMap.underlined,
-    strikethrough && messageFormatStylesMap.strikethrough,
-    obfuscated && messageFormatStylesMap.obfuscated
-  ].filter(a => a !== false && a !== undefined).filter(Boolean)
+const text = part.text
+const clickEvent = part.clickEvent
+const hoverEvent = part.hoverEvent
 
+const clickProps = clickEventToProps(clickEvent)
+
+const hoverMessageRaw = hoverItemToText(hoverEvent)
+
+const hoverItemText =
+  hoverMessageRaw && typeof hoverMessageRaw !== 'string'
+    ? render(hoverMessageRaw).children
+        .map(child => child.component.text)
+        .join('')
+    : hoverMessageRaw
+
+const resolvedColorStyle = colorF(color.toLowerCase()) ?? ''
+
+const shadowStyle =
+  (formatOptions?.doShadow ?? true) && resolvedColorStyle.length > 0
+    ? `; text-shadow: 1px 1px 0px ${getColorShadow(
+        resolvedColorStyle.replace('color:', '')
+      )}`
+    : ''
+
+const applyStyles = [
+  clickProps ? messageFormatStylesMap.clickEvent : undefined,
+  resolvedColorStyle + shadowStyle,
+  isItalic ? messageFormatStylesMap.italic : undefined,
+  isBold ? messageFormatStylesMap.bold : undefined,
+  isUnderlined ? messageFormatStylesMap.underlined : undefined,
+  isStrike ? messageFormatStylesMap.strikethrough : undefined,
+  isObfuscated ? messageFormatStylesMap.obfuscated : undefined,
+].filter((style): style is string => typeof style === 'string')
   return <span title={hoverItemText} style={parseInlineStyle(applyStyles.join(';'))} {...clickProps} {...props}>{text}</span>
 }
 
