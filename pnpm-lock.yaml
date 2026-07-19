@@ -74,9 +74,6 @@ importers:
       '@types/wicg-file-system-access':
         specifier: ^2023.10.2
         version: 2023.10.5
-      '@vercel/analytics':
-        specifier: ^2.0.1
-        version: 2.0.1(react@18.3.1)
       '@xmcl/text-component':
         specifier: ^2.1.3
         version: 2.1.3
@@ -159,11 +156,14 @@ importers:
         specifier: github:PrismarineJS/node-minecraft-protocol#master
         version: https://codeload.github.com/PrismarineJS/node-minecraft-protocol/tar.gz/ee40987dde124cd2f560bb944cfffb29946fef81(patch_hash=a0fc92234601e93b1e536d8d7cc9bf80a9df670d821e1d12746f261d15954fae)(encoding@0.1.13)
       minecraft-renderer:
-        specifier: ^0.1.92
+        specifier: ^0.1.91
         version: 0.1.92(@types/react@18.3.18)(contro-max@0.1.12(typescript@5.5.4))(mc-assets@0.2.72)(minecraft-data@3.105.0)(react@18.3.1)(three@0.184.0)
       mineflayer-item-map-downloader:
         specifier: github:zardoy/mineflayer-item-map-downloader
         version: https://codeload.github.com/zardoy/mineflayer-item-map-downloader/tar.gz/a8d210ecdcf78dd082fa149a96e1612cc9747824(patch_hash=a731ebbace2d8790c973ab3a5ba33494a6e9658533a9710dd8ba36f86db061ad)(encoding@0.1.13)
+      mineflayer-mouse:
+        specifier: github:hellios-12/mineflayer-mouse#built
+        version: https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/d1c99e9006021dfdcff508dd918190d848d09b43
       mojangson:
         specifier: ^2.0.4
         version: 2.0.4
@@ -357,9 +357,6 @@ importers:
       mineflayer:
         specifier: github:zardoy/mineflayer#gen-the-master
         version: https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf(encoding@0.1.13)
-      mineflayer-mouse:
-        specifier: 0.1.28
-        version: 0.1.28
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -3286,35 +3283,6 @@ packages:
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
-
-  '@vercel/analytics@2.0.1':
-    resolution: {integrity: sha512-MTQG6V9qQrt1tsDeF+2Uoo5aPjqbVPys1xvnIftXSJYG2SrwXRHnqEvVoYID7BTruDz4lCd2Z7rM1BdkUehk2g==}
-    peerDependencies:
-      '@remix-run/react': ^2
-      '@sveltejs/kit': ^1 || ^2
-      next: '>= 13'
-      nuxt: '>= 3'
-      react: ^18.2.0
-      svelte: '>= 4'
-      vue: ^3
-      vue-router: ^4
-    peerDependenciesMeta:
-      '@remix-run/react':
-        optional: true
-      '@sveltejs/kit':
-        optional: true
-      next:
-        optional: true
-      nuxt:
-        optional: true
-      react:
-        optional: true
-      svelte:
-        optional: true
-      vue:
-        optional: true
-      vue-router:
-        optional: true
 
   '@vitejs/plugin-react@3.1.0':
     resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
@@ -6310,6 +6278,10 @@ packages:
   mineflayer-mouse@0.1.28:
     resolution: {integrity: sha512-31r73CqU7eiv8cQSVA+NMR0WfA8Qs+p6of+Bd7ApWzR4a56W6fgfY3MExNmxxbb1/w9IbxTcMhDbcoKmE/5+nw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  mineflayer-mouse@https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/d1c99e9006021dfdcff508dd918190d848d09b43:
+    resolution: {tarball: https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/d1c99e9006021dfdcff508dd918190d848d09b43}
+    version: 0.0.0-dev
 
   mineflayer@https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf:
     resolution: {tarball: https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf}
@@ -12177,7 +12149,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 6.1.0(typescript@5.5.4)
       '@typescript-eslint/utils': 6.1.0(eslint@8.57.1)(typescript@5.5.4)
-      debug: 4.4.1
+      debug: 4.4.3
       eslint: 8.57.1
       ts-api-utils: 1.4.3(typescript@5.5.4)
     optionalDependencies:
@@ -12209,7 +12181,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/visitor-keys': 6.21.0
-      debug: 4.4.1
+      debug: 4.4.3
       globby: 11.1.0
       is-glob: 4.0.3
       minimatch: 9.0.3
@@ -12224,7 +12196,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.26.0
       '@typescript-eslint/visitor-keys': 8.26.0
-      debug: 4.4.1
+      debug: 4.4.3
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -12275,10 +12247,6 @@ snapshots:
       eslint-visitor-keys: 4.2.0
 
   '@ungap/structured-clone@1.3.0': {}
-
-  '@vercel/analytics@2.0.1(react@18.3.1)':
-    optionalDependencies:
-      react: 18.3.1
 
   '@vitejs/plugin-react@3.1.0(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
@@ -16101,6 +16069,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  mineflayer-mouse@https://codeload.github.com/hellios-12/mineflayer-mouse/tar.gz/d1c99e9006021dfdcff508dd918190d848d09b43:
+    dependencies:
+      change-case: 5.4.4
+      debug: 4.4.3
+      prismarine-item: 1.18.0
+      prismarine-world: https://codeload.github.com/zardoy/prismarine-world/tar.gz/ab2146c9933eef3247c3f64446de4ccc2c484c7c
+    transitivePeerDependencies:
+      - supports-color
+
   mineflayer@https://codeload.github.com/zardoy/mineflayer/tar.gz/5f9c9409700a1f48e781c9b7828b7494bcfb20bf(encoding@0.1.13):
     dependencies:
       '@nxg-org/mineflayer-physics-util': 1.8.19
@@ -16760,27 +16737,32 @@ snapshots:
       minecraft-data: 3.105.0
       prismarine-registry: 1.11.0
 
+  prismarine-biome@1.3.0(minecraft-data@3.105.0)(prismarine-registry@1.12.0):
+    dependencies:
+      minecraft-data: 3.105.0
+      prismarine-registry: 1.12.0
+
   prismarine-block@https://codeload.github.com/zardoy/prismarine-block/tar.gz/401a296892fbde312ade34685fdc2db3d31668ad:
     dependencies:
       minecraft-data: 3.105.0
-      prismarine-biome: 1.3.0(minecraft-data@3.105.0)(prismarine-registry@1.11.0)
+      prismarine-biome: 1.3.0(minecraft-data@3.105.0)(prismarine-registry@1.12.0)
       prismarine-chat: 1.11.0
       prismarine-item: 1.18.0
       prismarine-nbt: 2.7.0
-      prismarine-registry: 1.11.0
+      prismarine-registry: 1.12.0
 
   prismarine-chat@1.11.0:
     dependencies:
       mojangson: 2.0.4
       prismarine-nbt: 2.7.0
-      prismarine-registry: 1.11.0
+      prismarine-registry: 1.12.0
 
   prismarine-chunk@https://codeload.github.com/zardoy/prismarine-chunk/tar.gz/1eb3a5d85dffe18b7b504c6e5871c4b36681df1a(minecraft-data@3.105.0):
     dependencies:
-      prismarine-biome: 1.3.0(minecraft-data@3.105.0)(prismarine-registry@1.11.0)
+      prismarine-biome: 1.3.0(minecraft-data@3.105.0)(prismarine-registry@1.12.0)
       prismarine-block: https://codeload.github.com/zardoy/prismarine-block/tar.gz/401a296892fbde312ade34685fdc2db3d31668ad
       prismarine-nbt: 2.7.0
-      prismarine-registry: 1.11.0
+      prismarine-registry: 1.12.0
       smart-buffer: 4.2.0
       uint4: 0.1.2
       vec3: 0.1.10
@@ -16792,13 +16774,13 @@ snapshots:
     dependencies:
       prismarine-chat: 1.11.0
       prismarine-item: 1.18.0
-      prismarine-registry: 1.11.0
+      prismarine-registry: 1.12.0
       vec3: 0.1.10
 
   prismarine-item@1.18.0:
     dependencies:
       prismarine-nbt: 2.7.0
-      prismarine-registry: 1.11.0
+      prismarine-registry: 1.12.0
 
   prismarine-nbt@2.7.0:
     dependencies:
@@ -16847,7 +16829,7 @@ snapshots:
   prismarine-windows@2.9.0:
     dependencies:
       prismarine-item: 1.18.0
-      prismarine-registry: 1.11.0
+      prismarine-registry: 1.12.0
       typed-emitter: 2.1.0
 
   prismarine-world@https://codeload.github.com/zardoy/prismarine-world/tar.gz/ab2146c9933eef3247c3f64446de4ccc2c484c7c:
@@ -17022,7 +17004,7 @@ snapshots:
   puppeteer-core@2.1.1:
     dependencies:
       '@types/mime-types': 2.1.4
-      debug: 4.4.1
+      debug: 4.4.3
       extract-zip: 1.7.0
       https-proxy-agent: 4.0.0
       mime: 2.6.0
