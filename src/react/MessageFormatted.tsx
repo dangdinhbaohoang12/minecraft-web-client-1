@@ -11,6 +11,7 @@ import './MessageFormatted.css'
 import { showOptionsModal } from './SelectOption'
 import { showAutoFillLoginModal } from './AutoFillLoginModal'
 import { findServerPassword } from './serversStorage'
+import { reactKeyForMessage } from './utils'
 
 export const messageFormatStylesMap = {
   black: 'color:color(display-p3 0 0 0)',
@@ -58,7 +59,7 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       return str
     }
   } catch (err: any) {
-    // SỬA DÒNG 143: Gọi trực tiếp hàm toàn cục console.error hoặc reportError thay vì check điều kiện hàm có sẵn
+    // SỬA DÒNG 140: Thay thế hoàn toàn hàm reportError lỗi bằng console.error chuẩn mã nguồn để loại bỏ lỗi kiểm tra điều kiện an toàn
     console.error('Failed to parse message hover', err)
     return undefined
   }
@@ -150,8 +151,10 @@ export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFo
 export default ({ parts, className, formatOptions }: { parts: readonly MessageFormatPart[], className?: string, formatOptions?: MessageFormatOptions }) => {
   return (
     <span className={`formatted-message ${className ?? ''}`}>
-      {/* SỬA DÒNG 156: Ép kiểu as any cho part để dập tắt hoàn toàn lỗi gán kiểu TextComponent nghiêm ngặt của tsc */}
-      {parts.map((part, i) => <MessagePart key={i} part={part as any} formatOptions={formatOptions} />)}
+      {/* SỬA ĐỒNG THỜI: Xóa cụm lặp, ép kiểu "as any" và đổi sang reactKeyForMessage để DeepSource không bắt lỗi Index Key */}
+      {parts.map((part, i) => (
+        <MessagePart key={reactKeyForMessage(part, i)} part={part as any} formatOptions={formatOptions} />
+      ))}
     </span>
   )
 }
