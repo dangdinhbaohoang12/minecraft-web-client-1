@@ -31,9 +31,9 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       if (contents.name) str += `: ${contents.name.text}`
       return str
     }
-  } catch (err) {
+  } catch (err: any) {
     // todo report critical error
-    reportError?.('Failed to parse message hover' + err.message)
+    reportError('Failed to parse message hover' + err.message)
     return undefined
   }
 }
@@ -128,8 +128,8 @@ export default ({ parts, className, formatOptions }: { parts: readonly MessageFo
   )
 }
 
-const colorF = (color) => {
-  return color.trim().startsWith('#') ? `color:${color}` : messageFormatStylesMap[color] ?? undefined
+const colorF = (color: string) => {
+  return color.trim().startsWith('#') ? `color:${color}` : (messageFormatStylesMap as any)[color] ?? undefined
 }
 
 export function getColorShadow (hex, dim = 0.25) {
@@ -147,6 +147,7 @@ export function parseInlineStyle (style: string): Record<string, any> {
   const obj: Record<string, any> = {}
   for (const rule of style.split(';')) {
     const [prop, value] = rule.split(':')
+    if (!prop || !value) continue
     const cssInJsProp = prop.trim().replaceAll(/-./g, (x) => x.toUpperCase()[1])
     obj[cssInJsProp] = value.trim()
   }
@@ -177,3 +178,4 @@ export const messageFormatStylesMap = {
   obfuscated: 'filter:blur(2px)',
   clickEvent: 'cursor:pointer',
 }
+
