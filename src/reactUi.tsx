@@ -4,7 +4,6 @@ import { useSnapshot } from 'valtio'
 import { QRCodeSVG } from 'qrcode.react'
 import { createPortal } from 'react-dom'
 import { useEffect, useMemo, useState } from 'react'
-import { Analytics } from '@vercel/analytics/react'
 import { activeModalStack, miscUiState } from './globalState'
 import DeathScreenProvider from './react/DeathScreenProvider'
 import OptionsRenderApp from './react/OptionsRenderApp'
@@ -235,7 +234,6 @@ const AppBase = () => {
   return (
     <UIProvider scale={scale}>
       <div>
-        <Analytics />
         <ButtonAppProvider>
           <RobustPortal to={document.body}>
             <div className='overlay-bottom-scaled'>
