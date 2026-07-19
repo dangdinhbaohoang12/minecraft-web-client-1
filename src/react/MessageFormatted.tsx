@@ -59,9 +59,8 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       return str
     }
   } catch (err: any) {
-    // SỬA DÒNG 141: Dùng hàm ẩn danh bọc ngoài để qua mặt trình check điều kiện nghiêm ngặt của tsc
-    const logErr = typeof reportError !== 'undefined' ? reportError : console.error
-    logErr('Failed to parse message hover: ' + err.message)
+    // SỬA DÒNG 142: Thay thế hoàn toàn mọi logic check reportError cũ bằng console.error chuẩn hóa của Node/Browser
+    console.error('Failed to parse message hover:', err?.message || err)
     return undefined
   }
 }
@@ -152,7 +151,6 @@ export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFo
 export default ({ parts, className, formatOptions }: { parts: readonly MessageFormatPart[], className?: string, formatOptions?: MessageFormatOptions }) => {
   return (
     <span className={`formatted-message ${className ?? ''}`}>
-      {/* SỬA DÒNG 156: Bỏ tham số i trong hàm reactKeyForMessage để chỉ truyền đúng 1 đối tượng part */}
       {parts.map((part) => (
         <MessagePart key={reactKeyForMessage(part)} part={part as any} formatOptions={formatOptions} />
       ))}
