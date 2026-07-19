@@ -62,13 +62,13 @@ const MessageLine = ({ message, currentPlayerName, chatOpened }: { message: Mess
             if (txtPart.toLowerCase() === `@${currentPlayerName}`.toLowerCase()) {
               part.color = '#ffa500'
               part.bold = true
-              return <MessagePart key={j} part={part} />
+              return <MessagePart key={j} part={part as any} />
             }
-            return <MessagePart key={j} part={part} />
+            return <MessagePart key={j} part={part as any} />
           })
         }
       }
-      return <MessagePart key={i} part={msg} />
+      return <MessagePart key={i} part={msg as any} />
     })}
   </li>
 }
