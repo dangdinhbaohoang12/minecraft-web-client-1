@@ -59,9 +59,9 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       return str
     }
   } catch (err: any) {
-    // @ts-ignore
+    // @ts-expect-error
     if (typeof reportError !== 'undefined') {
-      // @ts-ignore
+      // @ts-expect-error
       reportError('Failed to parse message hover: ' + err.message)
     } else {
       console.error('Failed to parse message hover:', err)
