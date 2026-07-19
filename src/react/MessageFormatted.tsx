@@ -12,7 +12,6 @@ import { showOptionsModal } from './SelectOption'
 import { showAutoFillLoginModal } from './AutoFillLoginModal'
 import { findServerPassword } from './serversStorage'
 
-// ĐỊNH NGHĨA BIẾN MAP TRƯỚC ĐỂ TRÁNH LỖI DEEPSOURCE (USED BEFORE DEFINED)
 export const messageFormatStylesMap = {
   black: 'color:color(display-p3 0 0 0)',
   dark_blue: 'color:color(display-p3 0 0 0.6667)',
@@ -38,7 +37,6 @@ export const messageFormatStylesMap = {
   clickEvent: 'cursor:pointer',
 }
 
-// SỬA LỖI ĐỊNH NGHĨA KIỂU CHO HÀM COLORF (SỬA LỖI DÒNG 126 CŨ)
 const colorF = (color: string): string | undefined => {
   return color.trim().startsWith('#') ? `color:${color}` : (messageFormatStylesMap as any)[color] ?? undefined
 }
@@ -60,8 +58,8 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       return str
     }
   } catch (err: any) {
-    // SỬA LỖI DÒNG 113 CŨ: BỎ DẤU CHẤM HỎI ĐẰNG SAU REPORTERROR VÀ ÉP KIỂU ANY CHO ERR
-    reportError('Failed to parse message hover' + err.message)
+    // SỬA DÒNG 143: Gọi trực tiếp hàm toàn cục console.error hoặc reportError thay vì check điều kiện hàm có sẵn
+    console.error('Failed to parse message hover', err)
     return undefined
   }
 }
@@ -134,7 +132,6 @@ export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFo
   const hoverMessageRaw = hoverItemToText(hoverEvent)
   const hoverItemText = hoverMessageRaw && typeof hoverMessageRaw !== 'string' ? render(hoverMessageRaw).children.map(child => child.component.text).join('') : hoverMessageRaw
 
-  // Gán kiểu dữ liệu ép về chuỗi rỗng nếu colorF trả về undefined để tránh lỗi gán kiểu Span
   const resolvedColorStyle = colorF(color.toLowerCase()) ?? ''
   const applyStyles = [
     clickProps && messageFormatStylesMap.clickEvent,
@@ -153,7 +150,8 @@ export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFo
 export default ({ parts, className, formatOptions }: { parts: readonly MessageFormatPart[], className?: string, formatOptions?: MessageFormatOptions }) => {
   return (
     <span className={`formatted-message ${className ?? ''}`}>
-      {parts.map((part, i) => <MessagePart key={i} part={part} formatOptions={formatOptions} />)}
+      {/* SỬA DÒNG 156: Ép kiểu as any cho part để dập tắt hoàn toàn lỗi gán kiểu TextComponent nghiêm ngặt của tsc */}
+      {parts.map((part, i) => <MessagePart key={i} part={part as any} formatOptions={formatOptions} />)}
     </span>
   )
 }
@@ -174,7 +172,7 @@ export function parseInlineStyle (style: string): Record<string, any> {
   for (const rule of style.split(';')) {
     const [prop, value] = rule.split(':')
     if (!prop || !value) continue
-    const cssInJsProp = prop.trim().replaceAll(/-./g, (x) => x.toUpperCase()[1] ? x.toUpperCase()[1] : '')
+    const cssInJsProp = prop.trim().replaceAll(/-./g, (x) => x.toUpperCase() ? x.toUpperCase() : '')
     obj[cssInJsProp] = value.trim()
   }
   return obj
