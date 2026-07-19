@@ -59,9 +59,6 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: ^2.6.1
         version: 2.13.0(eslint@8.57.1)(typescript@5.5.4)
-      '@types/gapi':
-        specifier: ^0.0.47
-        version: 0.0.47
       '@types/react':
         specifier: ^18.2.20
         version: 18.3.31
@@ -288,6 +285,9 @@ importers:
       '@types/diff-match-patch':
         specifier: ^1.0.36
         version: 1.0.36
+      '@types/gapi':
+        specifier: ^0.0.47
+        version: 0.0.47
       '@types/lodash-es':
         specifier: ^4.17.9
         version: 4.17.12
