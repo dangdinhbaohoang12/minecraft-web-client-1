@@ -11,36 +11,6 @@ import './MessageFormatted.css'
 import { showOptionsModal } from './SelectOption'
 import { showAutoFillLoginModal } from './AutoFillLoginModal'
 import { findServerPassword } from './serversStorage'
-import { reactKeyForMessage } from './utils'
-
-export const messageFormatStylesMap = {
-  black: 'color:color(display-p3 0 0 0)',
-  dark_blue: 'color:color(display-p3 0 0 0.6667)',
-  dark_green: 'color:color(display-p3 0 0.6667 0)',
-  dark_aqua: 'color:color(display-p3 0 0.6667 0.6667)',
-  dark_red: 'color:color(display-p3 0.6667 0 0)',
-  dark_purple: 'color:color(display-p3 0.6667 0 0.6667)',
-  gold: 'color:color(display-p3 1 0.6667 0)',
-  gray: 'color:color(display-p3 0.6667 0.6667 0.6667)',
-  dark_gray: 'color:color(display-p3 0.3333 0.3333 0.3333)',
-  blue: 'color:color(display-p3 0.3333 0.3333 1)',
-  green: 'color:color(display-p3 0.3333 1 0.3333)',
-  aqua: 'color:color(display-p3 0.3333 1 1)',
-  red: 'color:color(display-p3 1 0.3333 0.3333)',
-  light_purple: 'color:color(display-p3 1 0.3333 1)',
-  yellow: 'color:color(display-p3 1 1 0.3333)',
-  white: 'color:color(display-p3 1 1 1)',
-  bold: 'font-weight:900',
-  strikethrough: 'text-decoration:line-through',
-  underlined: 'text-decoration:underline',
-  italic: 'font-style:italic',
-  obfuscated: 'filter:blur(2px)',
-  clickEvent: 'cursor:pointer',
-}
-
-const colorF = (color: string): string | undefined => {
-  return color.trim().startsWith('#') ? `color:${color}` : (messageFormatStylesMap as any)[color] ?? undefined
-}
 
 const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
   try {
@@ -50,6 +20,9 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       Object.assign(contents, mojangson.simplify(mojangson.parse(contents.text)))
     }
     if (typeof contents === 'string') return contents
+    // if (hoverEvent.action === 'show_text') {
+    //   return contents
+    // }
     if (hoverEvent.action === 'show_item') {
       return contents.id
     }
@@ -58,14 +31,11 @@ const hoverItemToText = (hoverEvent: MessageFormatPart['hoverEvent']) => {
       if (contents.name) str += `: ${contents.name.text}`
       return str
     }
-  } catch (err: any) {
-    // @ts-expect-error
-   const reportErrorFn = (globalThis as any).reportError
-    // @ts-expect-error
-    if (reportErrorFn) {
-  reportErrorFn('Failed to parse message hover: ' + err.message)
-}   else {
-  console.error('Failed to parse message hover:', err)
+  } catch (err) {
+    // todo report critical error
+    reportError?.('Failed to parse message hover' + err.message)
+    return undefined
+  }
 }
 
 const clickEventToProps = (clickEvent: MessageFormatPart['clickEvent']) => {
@@ -129,63 +99,37 @@ const openAutoFillLogin = async (mode: 'login' | 'register' | 'changepassword' |
 
 export const MessagePart = ({ part, formatOptions, ...props }: { part: MessageFormatPart, formatOptions?: MessageFormatOptions } & ComponentProps<'span'>) => {
 
-  const color = part.color ?? 'white'
-
-  const isItalic = part.italic === true
-  const isBold = part.bold === true
-  const isUnderlined = part.underlined === true
-  const isStrike = part.strikethrough === true
-  const isObfuscated = part.obfuscated === true
-
-  const text = part.text
-  const clickEvent = part.clickEvent
-  const {
-  color: _color,
-  italic,
-  bold,
-  underlined,
-  strikethrough,
-  text,
-  clickEvent,
-  hoverEvent,
-  obfuscated,
-} = part
-
+  const { color: _color, italic, bold, underlined, strikethrough, text, clickEvent, hoverEvent, obfuscated } = part
   const color = _color ?? 'white'
 
   const clickProps = clickEventToProps(clickEvent)
   const hoverMessageRaw = hoverItemToText(hoverEvent)
-
-  const hoverItemText =
-  hoverMessageRaw && typeof hoverMessageRaw !== 'string'
-    ? render(hoverMessageRaw).children.map(child => child.component.text).join('')
-    : hoverMessageRaw
-
-  const resolvedColorStyle = colorF(color.toLowerCase()) ?? ''
+  const hoverItemText = hoverMessageRaw && typeof hoverMessageRaw !== 'string' ? render(hoverMessageRaw).children.map(child => child.component.text).join('') : hoverMessageRaw
 
   const applyStyles = [
-  clickProps && messageFormatStylesMap.clickEvent,
-  resolvedColorStyle +
-    ((formatOptions?.doShadow ?? true) && resolvedColorStyle
-      ? `; text-shadow: 1px 1px 0px ${getColorShadow(
-          resolvedColorStyle.replace('color:', '')
-        )}`
-      : ''),
-  italic && messageFormatStylesMap.italic,
-  bold && messageFormatStylesMap.bold,
-  underlined && messageFormatStylesMap.underlined,
-  strikethrough && messageFormatStylesMap.strikethrough,
-  obfuscated && messageFormatStylesMap.obfuscated,
-].filter(Boolean)
+    clickProps && messageFormatStylesMap.clickEvent,
+    colorF(color.toLowerCase()) + ((formatOptions?.doShadow ?? true) ? `; text-shadow: 1px 1px 0px ${getColorShadow(colorF(color.toLowerCase()).replace('color:', ''))}` : ''),
+    italic && messageFormatStylesMap.italic,
+    bold && messageFormatStylesMap.bold,
+    italic && messageFormatStylesMap.italic,
+    underlined && messageFormatStylesMap.underlined,
+    strikethrough && messageFormatStylesMap.strikethrough,
+    obfuscated && messageFormatStylesMap.obfuscated
+  ].filter(a => a !== false && a !== undefined).filter(Boolean)
+
+  return <span title={hoverItemText} style={parseInlineStyle(applyStyles.join(';'))} {...clickProps} {...props}>{text}</span>
+}
 
 export default ({ parts, className, formatOptions }: { parts: readonly MessageFormatPart[], className?: string, formatOptions?: MessageFormatOptions }) => {
   return (
     <span className={`formatted-message ${className ?? ''}`}>
-      {parts.map((part) => (
-        <MessagePart key={reactKeyForMessage(part)} part={part as any} formatOptions={formatOptions} />
-      ))}
+      {parts.map((part, i) => <MessagePart key={i} part={part} formatOptions={formatOptions} />)}
     </span>
   )
+}
+
+const colorF = (color) => {
+  return color.trim().startsWith('#') ? `color:${color}` : messageFormatStylesMap[color] ?? undefined
 }
 
 export function getColorShadow (hex, dim = 0.25) {
@@ -203,10 +147,33 @@ export function parseInlineStyle (style: string): Record<string, any> {
   const obj: Record<string, any> = {}
   for (const rule of style.split(';')) {
     const [prop, value] = rule.split(':')
-    if (!prop || !value) continue
-    const cssInJsProp = prop.trim().replaceAll(/-./g, (x) => x.toUpperCase() ? x.toUpperCase() : '')
+    const cssInJsProp = prop.trim().replaceAll(/-./g, (x) => x.toUpperCase()[1])
     obj[cssInJsProp] = value.trim()
   }
   return obj
 }
 
+export const messageFormatStylesMap = {
+  black: 'color:color(display-p3 0 0 0)',
+  dark_blue: 'color:color(display-p3 0 0 0.6667)',
+  dark_green: 'color:color(display-p3 0 0.6667 0)',
+  dark_aqua: 'color:color(display-p3 0 0.6667 0.6667)',
+  dark_red: 'color:color(display-p3 0.6667 0 0)',
+  dark_purple: 'color:color(display-p3 0.6667 0 0.6667)',
+  gold: 'color:color(display-p3 1 0.6667 0)',
+  gray: 'color:color(display-p3 0.6667 0.6667 0.6667)',
+  dark_gray: 'color:color(display-p3 0.3333 0.3333 0.3333)',
+  blue: 'color:color(display-p3 0.3333 0.3333 1)',
+  green: 'color:color(display-p3 0.3333 1 0.3333)',
+  aqua: 'color:color(display-p3 0.3333 1 1)',
+  red: 'color:color(display-p3 1 0.3333 0.3333)',
+  light_purple: 'color:color(display-p3 1 0.3333 1)',
+  yellow: 'color:color(display-p3 1 1 0.3333)',
+  white: 'color:color(display-p3 1 1 1)',
+  bold: 'font-weight:900',
+  strikethrough: 'text-decoration:line-through',
+  underlined: 'text-decoration:underline',
+  italic: 'font-style:italic',
+  obfuscated: 'filter:blur(2px)',
+  clickEvent: 'cursor:pointer',
+}
