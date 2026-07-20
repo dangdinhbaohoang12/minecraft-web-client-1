@@ -1,7 +1,7 @@
 // Utilities to ensure placement preview renders with proper depth state
 // Supports THREE.js materials/meshes and a raw WebGL render wrapper.
 
-export function configureThreePreviewMaterial(material: any) {
+export function configureThreePreviewMaterial (material: any) {
   // Ensure the preview is occluded by terrain (depthTest on),
   // but usually keep depthWrite false for translucency so it doesn't pollute the depth buffer.
   material.depthTest = true
@@ -14,7 +14,7 @@ export function configureThreePreviewMaterial(material: any) {
  * Ensure the preview mesh draws after opaque geometry if needed,
  * without breaking depth testing. High renderOrder avoids accidental reordering.
  */
-export function configurePreviewMesh(mesh: any) {
+export function configurePreviewMesh (mesh: any) {
   mesh.renderOrder = 999
 }
 
@@ -27,7 +27,7 @@ export function configurePreviewMesh(mesh: any) {
  *     // draw preview geometry here
  *   });
  */
-export function withWebGLPreview(
+export function withWebGLPreview (
   gl: WebGLRenderingContext | WebGL2RenderingContext,
   renderPreview: () => void,
 ) {
