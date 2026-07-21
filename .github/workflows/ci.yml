@@ -17,11 +17,9 @@ jobs:
         with:
           node-version: 22
           # cache: "pnpm"
-      - name: Configure Git to use HTTPS
-        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install
       - run: pnpm build-single-file
       - name: Store minecraft.html size
         run: |
