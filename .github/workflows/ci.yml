@@ -20,6 +20,19 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
       - run: pnpm install
+      - name: Debug minecraft-renderer
+        run: |
+          echo "=== Package ==="
+          ls -la node_modules/minecraft-renderer || true
+
+          echo "=== Dist ==="
+          ls -la node_modules/minecraft-renderer/dist || true
+
+          echo "=== Files ==="
+          find node_modules/minecraft-renderer -maxdepth 2 -type f | sort
+
+          echo "=== package.json ==="
+          cat node_modules/minecraft-renderer/package.json
       - run: pnpm build-single-file
       - name: Store minecraft.html size
         run: |
