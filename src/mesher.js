@@ -1,3 +1,11 @@
-import { Buffer } from "buffer";
-export function createMesher(v, d) { return { optimizeEdges: true, tessellate: (c) => c }; }
-export function processMesh(d) { return d; }
+const { Buffer } = require("buffer");
+
+function createMesher(v, d) { 
+    return { optimizeEdges: true, tessellate: (c) => c }; 
+}
+
+function processMesh(d) { 
+    return d; 
+}
+
+module.exports = { createMesher, processMesh };
