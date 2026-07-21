@@ -1,0 +1,95 @@
+name: Autonomous AI Agent (Pull Request Only)
+
+on:
+  # Kích hoạt khi có Issue mới mở
+  issues:
+    types: [opened]
+    
+  # Kích hoạt khi có bình luận mới chứa lệnh /or
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read # Chỉ cần quyền đọc thông tin từ Issue
+
+jobs:
+  agent-create-pr:
+    runs-on: ubuntu-latest
+    
+    # Chỉ chạy nếu là Issue mới HOẶC bình luận có chứa từ khóa /or
+    if: |
+      github.event_name == 'issues' || 
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/or'))
+
+    steps:
+      # 1. Tải kho lưu trữ về máy ảo bằng mã PAT để có quyền cross-repo (fork/PR)
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MY_GITHUB_PAT }}
+
+      # 2. Cài đặt AI Engine Ollama
+      - name: Install Ollama Engine
+        run: |
+          curl -fsSL https://ollama.com | sh
+          ollama serve & 
+          sleep 5
+
+      # 3. Tải mô hình Qwen 2.5 Coder 7B chuyên viết code
+      - name: Pull Qwen 2.5 Coder 7B
+        run: ollama pull qwen2.5-coder:7b
+
+      # 4. Gom thông tin từ Issue/Comment làm ngữ cảnh cho AI
+      - name: Gather Context From Issue
+        run: |
+          if [ "${{ github.event_name }}" = "issues" ]; then
+            TITLE="${{ github.event.issue.title }}"
+            BODY="${{ github.event.issue.body }}"
+            echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+          else
+            TITLE="${{ github.event.issue.title }}"
+            BODY="Thông tin bổ sung từ lệnh /or: ${{ github.event.comment.body }}"
+            echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+          fi
+          
+          echo -e "Yêu cầu sửa lỗi: $TITLE\nChi tiết: $BODY" > ai_input.txt
+
+      # 5. AI thực thi: Sao chép thư viện, tự sửa mã nguồn và TẠO PULL REQUEST
+      - name: AI Process & Create Pull Request Only
+        env:
+          GH_TOKEN: ${{ secrets.MY_GITHUB_PAT }}
+        run: |
+          # Cấu hình Git của Bot
+          git config --global user.name "ai-agent[bot]"
+          git config --global user.email "ai-agent-bot@://github.com"
+          
+          CONTEXT_DATA=$(cat ai_input.txt)
+          SYSTEM_PROMPT="Bạn là một lập trình viên AI. Hãy đọc yêu cầu lỗi sau để sửa file cấu hình hoặc mã nguồn của thư viện một cách tối ưu nhất."
+          
+          # Tên thư viện mục tiêu cần can thiệp (Thay bằng repo thư viện thực tế của bạn)
+          TARGET_LIB="octocat/Spoon-Knife"
+          
+          # Hành động sao chép (Fork) thư viện bên ngoài về tài khoản của bạn
+          gh repo fork $TARGET_LIB --clone=true
+          cd Spoon-Knife
+          
+          # Tạo nhánh mới gắn liền với mã số Issue
+          git checkout -b "ai-fix-issue-${{ env.ISSUE_NUMBER }}"
+          
+          # AI viết code trực tiếp đè lên file (Ví dụ ở đây là file README.md hoặc file code bất kỳ)
+          ollama run qwen2.5-coder:7b "$SYSTEM_PROMPT. Ngữ cảnh lỗi: $CONTEXT_DATA. Hãy viết lại file README.md." > README.md
+          
+          # Đóng gói và đẩy mã nguồn lên bản Fork
+          git add README.md
+          git commit -m "fix: AI tự động chỉnh sửa theo Issue #${{ env.ISSUE_NUMBER }}"
+          git push origin "ai-fix-issue-${{ env.ISSUE_NUMBER }}"
+          
+          echo "=== TIẾN HÀNH TẠO YÊU CẦU KÉO (PULL REQUEST) ==="
+          # Chỉ tạo duy nhất Pull Request sang kho lưu trữ gốc, hoàn toàn không để lại bình luận nào khác
+          gh pr create \
+            --title "Fix: AI Patch for Issue #${{ env.ISSUE_NUMBER }}" \
+            --body "Yêu cầu kéo này được tạo tự động hoàn toàn bởi AI Agent (Qwen 7B) dựa trên báo cáo tại Issue #${{ env.ISSUE_NUMBER }}." \
+            --base main \
+            --head "ai-fix-issue-${{ env.ISSUE_NUMBER }}"
