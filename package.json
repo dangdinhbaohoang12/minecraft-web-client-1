@@ -85,6 +85,7 @@
     "minecraft-inventory": "^0.1.47",
     "minecraft-protocol": "github:PrismarineJS/node-minecraft-protocol#master",
     "minecraft-renderer": "github:hellios-12/minecraft-renderer",
+    "minecraft-web-client": "link:",
     "mineflayer-item-map-downloader": "github:zardoy/mineflayer-item-map-downloader",
     "mineflayer-mouse": "github:hellios-12/mineflayer-mouse#built",
     "mojangson": "^2.0.4",
