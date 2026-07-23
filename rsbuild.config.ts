@@ -250,19 +250,19 @@ const appConfig = defineConfig({
                     // childProcess.execSync('tsx ./scripts/genMcDataTypes.ts', { stdio: 'inherit' })
                     // childProcess.execSync('tsx ./scripts/genPixelartTypes.ts', { stdio: 'inherit' })
                     // copy mesher worker
-                    if (fs.existsSync('./node_modules/minecraft-renderer/src/wasm-mesher/runtime-build/wasm_mesher_bg.wasm')) {
-                        fs.copyFileSync('./node_modules/minecraft-renderer/src/wasm-mesher/runtime-build/wasm_mesher_bg.wasm', './dist/wasm_mesher_bg.wasm')
+                    if (fs.existsSync('/minecraft-renderer-1/src/wasm-mesher/runtime-build/wasm_mesher_bg.wasm')) {
+                        fs.copyFileSync('/minecraft-renderer-1/src/wasm-mesher/runtime-build/wasm_mesher_bg.wasm', './dist/wasm_mesher_bg.wasm')
                     } else {
                         console.warn('wasm_mesher_bg.wasm not found')
                     }
-                    if (fs.existsSync('./node_modules/minecraft-renderer/dist/mesherWasm.js')) {
-                        fs.copyFileSync('./node_modules/minecraft-renderer/dist/mesherWasm.js', './dist/mesherWasm.js')
+                    if (fs.existsSync('/minecraft-renderer-1/dist/mesherWasm.js')) {
+                        fs.copyFileSync('/minecraft-renderer-1/dist/mesherWasm.js', './dist/mesherWasm.js')
                     }
-                    if (fs.existsSync('./node_modules/minecraft-renderer/dist/mesher.js')) {
+                    if (fs.existsSync('/minecraft-renderer-1/dist/mesher.js')) {
                         // copy mesher
-                        fs.copyFileSync('./node_modules/minecraft-renderer/dist/mesher.js', './dist/mesher.js')
-                        fs.copyFileSync('./node_modules/minecraft-renderer/dist/mesher.js.map', './dist/mesher.js.map')
-                        fs.copyFileSync('./node_modules/minecraft-renderer/dist/threeWorker.js', './dist/threeWorker.js')
+                        fs.copyFileSync('/minecraft-renderer-1/dist/mesher.js', './dist/mesher.js')
+                        fs.copyFileSync('/minecraft-renderer-1/dist/mesher.js.map', './dist/mesher.js.map')
+                        fs.copyFileSync('/minecraft-renderer-1/dist/threeWorker.js', './dist/threeWorker.js')
                     } else {
                         throw new Error('mesher.js not found')
                     }
