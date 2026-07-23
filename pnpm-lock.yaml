@@ -157,7 +157,7 @@ importers:
         version: https://codeload.github.com/PrismarineJS/node-minecraft-protocol/tar.gz/ee40987dde124cd2f560bb944cfffb29946fef81(patch_hash=a0fc92234601e93b1e536d8d7cc9bf80a9df670d821e1d12746f261d15954fae)(encoding@0.1.13)
       minecraft-renderer:
         specifier: github:hellios-12/minecraft-renderer
-        version: https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/48db625b7d8f0a33662672d736dad49526ca9bc6(@types/react@18.3.18)(contro-max@0.1.12(typescript@5.5.4))(mc-assets@0.2.72)(minecraft-data@3.105.0)(react@18.3.1)(three@0.184.0)
+        version: https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/9e32763671a0c8e5e476798a66cbe5451bbc1fe5(@types/react@18.3.18)(contro-max@0.1.12(typescript@5.5.4))(mc-assets@0.2.72)(minecraft-data@3.105.0)(react@18.3.1)(three@0.184.0)
       mineflayer-item-map-downloader:
         specifier: github:zardoy/mineflayer-item-map-downloader
         version: https://codeload.github.com/zardoy/mineflayer-item-map-downloader/tar.gz/a8d210ecdcf78dd082fa149a96e1612cc9747824(patch_hash=a731ebbace2d8790c973ab3a5ba33494a6e9658533a9710dd8ba36f86db061ad)(encoding@0.1.13)
@@ -6258,8 +6258,8 @@ packages:
     version: 1.66.2
     engines: {node: '>=22'}
 
-  minecraft-renderer@https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/48db625b7d8f0a33662672d736dad49526ca9bc6:
-    resolution: {tarball: https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/48db625b7d8f0a33662672d736dad49526ca9bc6}
+  minecraft-renderer@https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/9e32763671a0c8e5e476798a66cbe5451bbc1fe5:
+    resolution: {tarball: https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/9e32763671a0c8e5e476798a66cbe5451bbc1fe5}
     version: 0.0.0
     peerDependencies:
       contro-max: '*'
@@ -6901,12 +6901,20 @@ packages:
       minecraft-data: 3.105.0
       prismarine-registry: ^1.1.0
 
+  prismarine-biome@1.4.0:
+    resolution: {integrity: sha512-fD2WmjN8Zr/xA/jeMInReLgaDlznwA5xlaK529PzWuGzgjpc5ijVu1Lp1oqHyZn3WxOG/bRVtW1bU+tmgCurWA==}
+    peerDependencies:
+      prismarine-registry: ^1.1.0
+
   prismarine-block@https://codeload.github.com/zardoy/prismarine-block/tar.gz/401a296892fbde312ade34685fdc2db3d31668ad:
     resolution: {tarball: https://codeload.github.com/zardoy/prismarine-block/tar.gz/401a296892fbde312ade34685fdc2db3d31668ad}
     version: 1.23.0
 
   prismarine-chat@1.11.0:
     resolution: {integrity: sha512-VJT/MWYB3qoiznUhrgvSQh76YFpzpCZpY85kJKxHLbd3UVoM0wsfs43Eg8dOltiZG92wc5/DTMLlT07TEeoa9w==}
+
+  prismarine-chat@1.13.0:
+    resolution: {integrity: sha512-tvDbrQmJEoy09yLE5nnedGhQYxnRDaPRePMv7W39dFaHr2LGcA2JfCmH0vG5193+BsEFz3a5+0EpQSK8OW7YmA==}
 
   prismarine-chunk@https://codeload.github.com/zardoy/prismarine-chunk/tar.gz/1eb3a5d85dffe18b7b504c6e5871c4b36681df1a:
     resolution: {tarball: https://codeload.github.com/zardoy/prismarine-chunk/tar.gz/1eb3a5d85dffe18b7b504c6e5871c4b36681df1a}
@@ -13607,6 +13615,8 @@ snapshots:
       prismarine-registry: 1.12.0
       random-seed: 0.3.0
       vec3: 0.1.10
+    transitivePeerDependencies:
+      - supports-color
 
   diff-match-patch@1.0.5: {}
 
@@ -16043,7 +16053,7 @@ snapshots:
       - encoding
       - supports-color
 
-  minecraft-renderer@https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/48db625b7d8f0a33662672d736dad49526ca9bc6(@types/react@18.3.18)(contro-max@0.1.12(typescript@5.5.4))(mc-assets@0.2.72)(minecraft-data@3.105.0)(react@18.3.1)(three@0.184.0):
+  minecraft-renderer@https://codeload.github.com/hellios-12/minecraft-renderer/tar.gz/9e32763671a0c8e5e476798a66cbe5451bbc1fe5(@types/react@18.3.18)(contro-max@0.1.12(typescript@5.5.4))(mc-assets@0.2.72)(minecraft-data@3.105.0)(react@18.3.1)(three@0.184.0):
     dependencies:
       '@tweenjs/tween.js': 20.0.3
       '@types/events': 3.0.3
@@ -16765,20 +16775,37 @@ snapshots:
       minecraft-data: 3.105.0
       prismarine-registry: 1.11.0
 
+  prismarine-biome@1.4.0(prismarine-registry@1.12.0):
+    dependencies:
+      prismarine-registry: 1.12.0
+
   prismarine-block@https://codeload.github.com/zardoy/prismarine-block/tar.gz/401a296892fbde312ade34685fdc2db3d31668ad:
     dependencies:
       minecraft-data: 3.105.0
-      prismarine-biome: 1.3.0(minecraft-data@3.105.0)(prismarine-registry@1.11.0)
-      prismarine-chat: 1.11.0
+      prismarine-biome: 1.4.0(prismarine-registry@1.12.0)
+      prismarine-chat: 1.13.0
       prismarine-item: 1.18.0
       prismarine-nbt: 2.7.0
-      prismarine-registry: 1.11.0
+      prismarine-registry: 1.12.0
+    transitivePeerDependencies:
+      - supports-color
 
   prismarine-chat@1.11.0:
     dependencies:
       mojangson: 2.0.4
       prismarine-nbt: 2.8.0
       prismarine-registry: 1.12.0
+    transitivePeerDependencies:
+      - supports-color
+
+  prismarine-chat@1.13.0:
+    dependencies:
+      debug: 4.4.0(supports-color@8.1.1)
+      mojangson: 2.0.4
+      prismarine-nbt: 2.7.0
+      prismarine-registry: 1.12.0
+    transitivePeerDependencies:
+      - supports-color
 
   prismarine-chunk@https://codeload.github.com/zardoy/prismarine-chunk/tar.gz/1eb3a5d85dffe18b7b504c6e5871c4b36681df1a(minecraft-data@3.105.0):
     dependencies:
@@ -16792,6 +16819,7 @@ snapshots:
       xxhash-wasm: 0.4.2
     transitivePeerDependencies:
       - minecraft-data
+      - supports-color
 
   prismarine-entity@2.5.0:
     dependencies:
@@ -16804,6 +16832,8 @@ snapshots:
     dependencies:
       prismarine-nbt: 2.7.0
       prismarine-registry: 1.11.0
+    transitivePeerDependencies:
+      - supports-color
 
   prismarine-nbt@2.7.0:
     dependencies:
@@ -16828,6 +16858,7 @@ snapshots:
       vec3: 0.1.10
     transitivePeerDependencies:
       - minecraft-data
+      - supports-color
 
   prismarine-realms@1.3.2(encoding@0.1.13):
     dependencies:
@@ -16846,12 +16877,16 @@ snapshots:
       minecraft-data: 3.105.0
       prismarine-block: https://codeload.github.com/zardoy/prismarine-block/tar.gz/401a296892fbde312ade34685fdc2db3d31668ad
       prismarine-nbt: 2.8.0
+    transitivePeerDependencies:
+      - supports-color
 
   prismarine-registry@1.12.0:
     dependencies:
       minecraft-data: 3.105.0
       prismarine-block: https://codeload.github.com/zardoy/prismarine-block/tar.gz/401a296892fbde312ade34685fdc2db3d31668ad
       prismarine-nbt: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
 
   prismarine-windows@2.9.0:
     dependencies:
