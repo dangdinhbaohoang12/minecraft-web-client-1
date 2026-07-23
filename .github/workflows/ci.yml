@@ -22,6 +22,13 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
       - run: pnpm install --no-frozen-lockfile
+      - name: Install specific branch of minecraft-renderer
+        run: |
+        # Ép pnpm cài đặt nhánh được chỉ định thông qua biến môi trường RENDERER_BRANCH
+        # Nếu không truyền biến, mặc định sẽ cài nhánh 'main'
+       BRANCH_NAME="${{ env.RENDERER_BRANCH || 'main' }}"
+       pnpm add github:hellios-12/minecraft-renderer-1#$BRANCH_NAME
+
       - run: pnpm build-single-file
       - name: Store minecraft.html size
         run: |
