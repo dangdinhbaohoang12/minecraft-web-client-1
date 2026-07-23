@@ -24,12 +24,19 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       - name: Install specific branch of minecraft-renderer
         run: |
-        # Ép pnpm cài đặt nhánh được chỉ định thông qua biến môi trường RENDERER_BRANCH
-        # Nếu không truyền biến, mặc định sẽ cài nhánh 'main'
-       BRANCH_NAME="${{ env.RENDERER_BRANCH || 'main' }}"
-       pnpm add github:hellios-12/minecraft-renderer-1#$BRANCH_NAME
+          # 1. Tự động lấy tên nhánh đang gửi Pull Request hiện tại
+          # 2. Nếu không tìm thấy (hoặc không chạy trong PR), hệ thống tự Fallback về nhánh 'main'
+          BRANCH_NAME="${{ github.head_ref || 'main' }}"
+          echo "Đang tiến hành đồng bộ cài đặt với nhánh: $BRANCH_NAME"
+          
+          # Thực hiện ép cài đặt nhánh trùng tên, nếu nhánh đó không tồn tại bên repo renderer, 
+          # lệnh || sẽ giúp fallback tải về từ nhánh main để không làm sập tiến trình build.
+          pnpm add github:hellios-12/minecraft-renderer-1#$BRANCH_NAME || pnpm add github:hellios-12/minecraft-renderer-1#main
 
       - run: pnpm build-single-file
+        
+
+      
       - name: Store minecraft.html size
         run: |
           SIZE_BYTES=$(du -s dist/single/minecraft.html 2>/dev/null | cut -f1)
