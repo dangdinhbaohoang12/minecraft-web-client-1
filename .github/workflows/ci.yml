@@ -17,26 +17,10 @@ jobs:
         with:
           node-version: 22
           # cache: "pnpm"
-      - name: Configure Git to use HTTPS
-        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-      - run: pnpm install --no-frozen-lockfile
-      - name: Install specific branch of minecraft-renderer
-        run: |
-          # 1. Tự động lấy tên nhánh đang gửi Pull Request hiện tại
-          # 2. Nếu không tìm thấy (hoặc không chạy trong PR), hệ thống tự Fallback về nhánh 'main'
-          BRANCH_NAME="${{ github.head_ref || 'main' }}"
-          echo "Đang tiến hành đồng bộ cài đặt với nhánh: $BRANCH_NAME"
-          
-          # Thực hiện ép cài đặt nhánh trùng tên, nếu nhánh đó không tồn tại bên repo renderer, 
-          # lệnh || sẽ giúp fallback tải về từ nhánh main để không làm sập tiến trình build.
-          pnpm add github:hellios-12/minecraft-renderer-1#$BRANCH_NAME || pnpm add github:hellios-12/minecraft-renderer-1#main
-
+      - run: pnpm install
       - run: pnpm build-single-file
-        
-
-      
       - name: Store minecraft.html size
         run: |
           SIZE_BYTES=$(du -s dist/single/minecraft.html 2>/dev/null | cut -f1)
