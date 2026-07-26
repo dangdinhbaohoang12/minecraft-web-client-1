@@ -1,5 +1,6 @@
 import { createMouse } from 'mineflayer-mouse'
 import { Bot } from 'mineflayer'
+import type { Entity } from 'prismarine-entity'
 import { Block } from 'prismarine-block'
 import { getThreeJsRendererMethods } from 'minecraft-renderer/src/three/threeJsMethods'
 import { isGameActive, showModal } from '../../globalState'
@@ -7,6 +8,14 @@ import { isGameActive, showModal } from '../../globalState'
 import { isCypress } from '../../standaloneUtils'
 import { playerState } from '../playerState'
 import { sendVideoInteraction, videoCursorInteraction } from '../../customChannels'
+
+function isRideableVehicleEntity (entity?: Entity | null) {
+  if (!entity?.name) return false
+  return entity.name === 'boat' ||
+    entity.name === 'chest_boat' ||
+    entity.name === 'minecart' ||
+    entity.name.endsWith('_minecart')
+}
 
 function cursorBlockDisplay (bot: Bot) {
   const updateCursorBlock = (data?: { block: Block }) => {
@@ -99,6 +108,13 @@ const domListeners = (bot: Bot) => {
     if (e.button === 0) {
       bot.leftClickStart()
     } else if (e.button === 2) {
+      const cursorEntity = bot.mouse.getCursorState().entity
+      if (cursorEntity && isRideableVehicleEntity(cursorEntity)) {
+        try {
+          bot.mount(cursorEntity)
+        } catch {}
+        return
+      }
       bot.rightClickStart()
     }
   }, { signal: abortController.signal })
