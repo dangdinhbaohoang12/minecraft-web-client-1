@@ -109,8 +109,10 @@ const domListeners = (bot: Bot) => {
       bot.leftClickStart()
     } else if (e.button === 2) {
       const cursorEntity = bot.mouse.getCursorState().entity
-      if (isRideableVehicleEntity(cursorEntity)) {
-        void bot.mount(cursorEntity).catch(() => {})
+      if (cursorEntity && isRideableVehicleEntity(cursorEntity)) {
+        try {
+          bot.mount(cursorEntity)
+        } catch {}
         return
       }
       bot.rightClickStart()
