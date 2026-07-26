@@ -315,8 +315,10 @@ const setSneaking = (state: boolean) => {
   gameAdditionalState.isSneaking = state
   bot.setControlState('sneak', state)
 
-  if (state && bot.vehicle) {
-    void bot.dismount().catch(() => {})
+  if (state && (bot as any).vehicle) {
+    try {
+      bot.dismount()
+    } catch {}
   }
 }
 
