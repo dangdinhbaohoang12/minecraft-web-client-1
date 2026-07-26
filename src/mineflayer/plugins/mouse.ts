@@ -108,6 +108,8 @@ const domListeners = (bot: Bot) => {
     if (e.button === 0) {
       bot.leftClickStart()
     } else if (e.button === 2) {
+      // Refresh cursor state before deciding whether this click should mount a vehicle.
+      bot.mouse.update()
       const cursorEntity = bot.mouse.getCursorState().entity
       if (cursorEntity && isRideableVehicleEntity(cursorEntity)) {
         try {
