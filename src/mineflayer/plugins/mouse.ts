@@ -93,6 +93,8 @@ const otherListeners = () => {
 
 const domListeners = (bot: Bot) => {
   const abortController = new AbortController()
+  let consumeNextRightClickEnd = false
+
   document.addEventListener('mousedown', (e) => {
     if (e.isTrusted && !document.pointerLockElement && !isCypress()) return
     if (!isGameActive(true)) return
@@ -108,15 +110,17 @@ const domListeners = (bot: Bot) => {
     if (e.button === 0) {
       bot.leftClickStart()
     } else if (e.button === 2) {
+      consumeNextRightClickEnd = false
+
       // Refresh cursor state before deciding whether this click should mount a vehicle.
       bot.mouse.update()
       const cursorEntity = bot.mouse.getCursorState().entity
       if (cursorEntity && isRideableVehicleEntity(cursorEntity)) {
-        try {
-          bot.mount(cursorEntity)
-        } catch {}
+        bot.mount(cursorEntity)
+        consumeNextRightClickEnd = true
         return
       }
+
       bot.rightClickStart()
     }
   }, { signal: abortController.signal })
@@ -125,6 +129,10 @@ const domListeners = (bot: Bot) => {
     if (e.button === 0) {
       bot.leftClickEnd()
     } else if (e.button === 2) {
+      if (consumeNextRightClickEnd) {
+        consumeNextRightClickEnd = false
+        return
+      }
       bot.rightClickEnd()
     }
   }, { signal: abortController.signal })
