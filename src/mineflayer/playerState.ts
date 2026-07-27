@@ -166,6 +166,7 @@ export class PlayerStateControllerMain {
     // Movement tracking
     bot.on('move', () => {
       this.updateMovementState()
+      this.reactive.isMounted = !!(bot as any).vehicle
     })
 
     // Item tracking
@@ -181,10 +182,15 @@ export class PlayerStateControllerMain {
       this.reactive.flying = gameAdditionalState.isFlying
       this.reactive.eyeHeight = bot.controlState.sneak && !gameAdditionalState.isFlying ? SNEAK_EYE_HEIGHT : STANDING_EYE_HEIGHT
     }
+    const updateMountedState = () => {
+      this.reactive.isMounted = !!(bot as any).vehicle
+    }
     updateSneakingOrFlying()
+    updateMountedState()
     bot.on('physicsTick', () => {
       if (this.isUsingItem) this.reactive.itemUsageTicks++
       updateSneakingOrFlying()
+      updateMountedState()
       this.updateWalkDistAndBob()
     })
     // todo move from gameAdditionalState to reactive directly
