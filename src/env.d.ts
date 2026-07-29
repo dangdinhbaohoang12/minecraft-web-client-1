@@ -1,3 +1,5 @@
+/// <reference path="../node_modules/minecraft-renderer/src/three/globals.d.ts" />
+
 declare namespace NodeJS {
   interface ProcessEnv {
     // Build configuration
