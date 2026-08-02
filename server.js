@@ -70,12 +70,20 @@ if (isProd) {
   })
 
   // Serve minecraft-renderer wasm mesher artifacts from the installed package.
-  // (Needed when using file: dependency, where these assets may not be in the web-client dist root)
+  // The GitHub package ships `dist/mesherWasm.js` and `src/wasm-mesher/runtime-build/wasm_mesher_bg.wasm`.
   try {
     const rendererPkg = require.resolve('minecraft-renderer/package.json')
     const rendererDir = path.dirname(rendererPkg)
-    app.get('/wasm_mesher.js', (req, res) => res.sendFile(path.join(rendererDir, 'public/wasm_mesher.js')))
-    app.get('/wasm_mesher_bg.wasm', (req, res) => res.sendFile(path.join(rendererDir, 'public/wasm_mesher_bg.wasm')))
+    const rendererMesherWasm = path.join(rendererDir, 'dist/mesherWasm.js')
+    const rendererBgWasm = path.join(rendererDir, 'src/wasm-mesher/runtime-build/wasm_mesher_bg.wasm')
+    if (fs.existsSync(rendererMesherWasm)) {
+      app.get('/mesherWasm.js', (req, res) => res.sendFile(rendererMesherWasm))
+      // Preserve the old route in case an external consumer still requests it.
+      app.get('/wasm_mesher.js', (req, res) => res.sendFile(rendererMesherWasm))
+    }
+    if (fs.existsSync(rendererBgWasm)) {
+      app.get('/wasm_mesher_bg.wasm', (req, res) => res.sendFile(rendererBgWasm))
+    }
   } catch (err) {
     console.warn('Failed to locate minecraft-renderer package for wasm mesher assets', err)
   }

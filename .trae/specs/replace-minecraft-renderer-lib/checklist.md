@@ -1,0 +1,5 @@
+- [ ] The renderer dependency in `package.json` points to `https://github.com/hellios-12/minecraft-renderer-1`
+- [ ] The lockfile resolves the renderer dependency from the requested repository
+- [ ] Build-time renderer asset resolution still works after the replacement
+- [ ] Runtime renderer asset serving still works after the replacement
+- [ ] `pnpm check-build` completes successfully after the replacement
