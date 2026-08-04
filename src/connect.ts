@@ -59,7 +59,7 @@ export const loadMinecraftData = async (version: string) => {
   // //   versionsByMinecraftVersion.pc[initialDataVersion]!.dataVersion!++
   // // }
 
-  const baseData = MinecraftData(version) as import('minecraft-data').IndexedData
+  const baseData = MinecraftData(version)
   const mcData: import('minecraft-data').IndexedData & { sounds: Record<string, { id: number; name: string }> } = {
     ...baseData,
     sounds: {}
