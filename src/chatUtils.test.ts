@@ -2,7 +2,9 @@ import { test, expect } from 'vitest'
 import mcData from 'minecraft-data'
 import { formatMessage, isAllowedChatCharacter, isStringAllowed } from './chatUtils'
 
-globalThis.loadedData ??= mcData('1.20.1')
+globalThis.loadedData ??= Object.assign(mcData('1.20.1'), {
+  sounds: {} as Record<string, { id: number; name: string }>
+})
 
 const mapIncludeDefined = (props) => {
   return (x) => {
