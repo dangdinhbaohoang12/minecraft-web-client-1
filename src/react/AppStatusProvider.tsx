@@ -159,7 +159,12 @@ const AppStatusProviderBase = () => {
       resetAppStatusState()
       miscUiState.gameLoaded = false
       miscUiState.loadedDataVersion = null
-      window.loadedData = undefined
+      // loadedData is typed as required (not optional) because dozens of call
+      // sites across the renderer/client read it without null checks while the
+      // app is running. This reset only happens during teardown, right before
+      // the next world load repopulates it - hence the explicit cast instead
+      // of loosening the global type.
+      window.loadedData = undefined as unknown as typeof window.loadedData
       if (activeModalStacks['main-menu']) {
         insertActiveModalStack('main-menu')
         if (activeModalStack.at(-1)?.reactType === 'app-status') {
