@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import type { IndexedData } from 'minecraft-data'
 
 import { useEffect, useState } from 'react'
 import { formatMessage } from '../chatUtils'
@@ -6,9 +7,11 @@ import Chat, { chatInputValueGlobal } from './Chat'
 import Button from './Button'
 
 window.spamMessage = window.spamMessage ?? ''
+// Partial mock for Storybook only - real IndexedData has ~50 more fields this
+// story doesn't touch, hence the cast instead of a full mock object.
 window.loadedData = {
   language: {}
-}
+} as unknown as IndexedData
 const meta: Meta<typeof Chat> = {
   component: Chat,
   render (args) {
