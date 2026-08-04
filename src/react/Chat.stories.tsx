@@ -6,9 +6,11 @@ import Chat, { chatInputValueGlobal } from './Chat'
 import Button from './Button'
 
 window.spamMessage = window.spamMessage ?? ''
+// Partial mock for Storybook only - real IndexedData has dozens more fields
+// this story doesn't touch, hence the cast instead of a full mock object.
 window.loadedData = {
   language: {}
-}
+} as unknown as typeof window.loadedData
 const meta: Meta<typeof Chat> = {
   component: Chat,
   render (args) {
