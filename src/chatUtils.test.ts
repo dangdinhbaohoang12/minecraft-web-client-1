@@ -2,7 +2,6 @@ import { test, expect } from 'vitest'
 import mcData from 'minecraft-data'
 import { formatMessage, isAllowedChatCharacter, isStringAllowed } from './chatUtils'
 
-//@ts-expect-error
 globalThis.loadedData ??= mcData('1.20.1')
 
 const mapIncludeDefined = (props) => {
