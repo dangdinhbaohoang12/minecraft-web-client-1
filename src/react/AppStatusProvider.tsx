@@ -1,3 +1,4 @@
+import type { IndexedData } from 'minecraft-data'
 import { proxy, useSnapshot } from 'valtio'
 import { useEffect, useRef, useState } from 'react'
 import { activeModalStack, activeModalStacks, hideModal, insertActiveModalStack, maybeCleanupAfterDisconnect, miscUiState } from '../globalState'
@@ -159,7 +160,12 @@ const AppStatusProviderBase = () => {
       resetAppStatusState()
       miscUiState.gameLoaded = false
       miscUiState.loadedDataVersion = null
-      window.loadedData = undefined
+      // loadedData is typed as required (IndexedData, not optional) because ~80
+      // call sites across the renderer/client read it without null checks while
+      // the app is running. This reset only happens during teardown, right
+      // before the next world load repopulates it - hence the explicit cast
+      // instead of loosening the global type.
+      window.loadedData = undefined as unknown as IndexedData
       if (activeModalStacks['main-menu']) {
         insertActiveModalStack('main-menu')
         if (activeModalStack.at(-1)?.reactType === 'app-status') {
