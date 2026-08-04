@@ -59,9 +59,11 @@ export const loadMinecraftData = async (version: string) => {
   // //   versionsByMinecraftVersion.pc[initialDataVersion]!.dataVersion!++
   // // }
 
-  const mcData = Object.assign(MinecraftData(version), {
-    sounds: {} as Record<string, { id: number; name: string }>
-  })
+  const baseData = MinecraftData(version) as import('minecraft-data').IndexedData
+  const mcData: import('minecraft-data').IndexedData & { sounds: Record<string, { id: number; name: string }> } = {
+    ...baseData,
+    sounds: {}
+  }
   window.PrismarineBlock = PrismarineBlock(mcData.version.minecraftVersion!)
   window.PrismarineItem = PrismarineItem(mcData.version.minecraftVersion!)
   window.loadedData = mcData
