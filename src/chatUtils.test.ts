@@ -2,12 +2,12 @@ import { test, expect } from 'vitest'
 import mcData from 'minecraft-data'
 import { formatMessage, isAllowedChatCharacter, isStringAllowed } from './chatUtils'
 
-const initialData = mcData('1.20.1') as import('minecraft-data').IndexedData
+const initialData = mcData('1.20.1')
 
 if (!globalThis.loadedData) {
   globalThis.loadedData = {
     ...initialData,
-    sounds: {} as Record<string, { id: number; name: string }>
+    sounds: {}
   }
 }
 
