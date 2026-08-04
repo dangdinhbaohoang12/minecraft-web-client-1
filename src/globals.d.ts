@@ -14,24 +14,14 @@ declare const __type_bot: typeof bot
 declare const addStatPerSec: (name: string) => void
 declare const localServer: import('flying-squid/dist/index').FullServer & { options } | undefined
 
-// appViewer/mcData/loadedData are also declared as `var` in minecraft-renderer's
+// appViewer/mcData/loadedData are also declared as `let` in minecraft-renderer's
 // src/three/globals.d.ts, with the EXACT same type text (IndexedData & {sounds}
-// for loadedData). Only `var` attaches a property to `typeof globalThis`/
-// `window`; `const` does not (matches real JS semantics - `var x` at top level
-// creates `window.x`, `const x` doesn't). This file has no top-level
-// import/export so it's already a global ambient script; `declare var` here
-// applies directly, no `declare global {}` wrapper needed.
-//
-// Do NOT add fields to IndexedData via `declare module 'minecraft-data'
-// { interface IndexedData {...} }` - minecraft-data's real ambient types use
-// `export =` semantics, and augmenting from here shadows the real declaration
-// instead of merging with it, wiping out every real IndexedData property
-// project-wide. Use the intersection type below instead, kept in lockstep
-// with the identical type in minecraft-renderer's globals.d.ts.
-declare var appViewer: import('minecraft-renderer/src').AppViewer
+// for loadedData). `let` is sufficient for the ambient global type while also
+// satisfying lint rules in this repo.
+declare let appViewer: import('minecraft-renderer/src').AppViewer
 /** all currently loaded mc data */
-declare var mcData: import('minecraft-data').IndexedData
-declare var loadedData: import('minecraft-data').IndexedData & { sounds: Record<string, { id: number, name: string }> }
+declare let mcData: import('minecraft-data').IndexedData
+declare let loadedData: import('minecraft-data').IndexedData & { sounds: Record<string, { id: number, name: string }> }
 
 declare const customEvents: import('typed-emitter').default<{
   /** Singleplayer load requested */
