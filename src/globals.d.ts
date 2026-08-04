@@ -14,30 +14,24 @@ declare const __type_bot: typeof bot
 declare const addStatPerSec: (name: string) => void
 declare const localServer: import('flying-squid/dist/index').FullServer & { options } | undefined
 
-// `sounds` is consumed by chat/UI code; augmenting IndexedData directly (rather
-// than intersecting it locally) means every `IndexedData` reference - including
-// the one inside minecraft-renderer's own src/three/globals.d.ts - sees the same
-// shape. minecraft-renderer declares this same augmentation for its own
-// standalone build; keep both declarations identical if either changes.
-declare module 'minecraft-data' {
-  interface IndexedData {
-    sounds: Record<string, { id: number, name: string }>
-  }
-}
-
-// appViewer/mcData/loadedData are also declared as `var` (not `const`) in
-// minecraft-renderer's src/three/globals.d.ts, with IDENTICAL types. Only
-// `var` attaches a property to `typeof globalThis`/`window`; `const` does
-// not (this matches real JS semantics). This file has no top-level
-// import/export, so it's a global ambient script already - these `var`
-// declarations apply directly without a `declare global {}` wrapper (that
-// wrapper is only valid, and only needed, inside module files). TypeScript
-// requires globals declared in multiple files/packages to have the exact
-// same type or it errors - keep this block and the renderer's in lockstep.
+// appViewer/mcData/loadedData are also declared as `var` in minecraft-renderer's
+// src/three/globals.d.ts, with the EXACT same type text (IndexedData & {sounds}
+// for loadedData). Only `var` attaches a property to `typeof globalThis`/
+// `window`; `const` does not (matches real JS semantics - `var x` at top level
+// creates `window.x`, `const x` doesn't). This file has no top-level
+// import/export so it's already a global ambient script; `declare var` here
+// applies directly, no `declare global {}` wrapper needed.
+//
+// Do NOT add fields to IndexedData via `declare module 'minecraft-data'
+// { interface IndexedData {...} }` - minecraft-data's real ambient types use
+// `export =` semantics, and augmenting from here shadows the real declaration
+// instead of merging with it, wiping out every real IndexedData property
+// project-wide. Use the intersection type below instead, kept in lockstep
+// with the identical type in minecraft-renderer's globals.d.ts.
 declare var appViewer: import('minecraft-renderer/src').AppViewer
 /** all currently loaded mc data */
 declare var mcData: import('minecraft-data').IndexedData
-declare var loadedData: import('minecraft-data').IndexedData
+declare var loadedData: import('minecraft-data').IndexedData & { sounds: Record<string, { id: number, name: string }> }
 
 declare const customEvents: import('typed-emitter').default<{
   /** Singleplayer load requested */
