@@ -25,7 +25,7 @@ window.cursorBlockRel = (x = 0, y = 0, z = 0) => {
 Object.defineProperty(window, 'debug', {
   get () {
     if (enabled('*')) {
-      disable('*')
+      disable()
       return 'disabled debug'
     } else {
       enable('*')
