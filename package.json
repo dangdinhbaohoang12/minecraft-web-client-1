@@ -171,7 +171,7 @@
     "cypress": "^10.11.0",
     "cypress-plugin-snapshots": "^1.4.4",
     "sharp": "^0.33.5",
-    "systeminformation": "^5.21.22"
+    "systeminformation": "^5.33.1"
   },
   "browserslist": {
     "production": [
