@@ -8,7 +8,6 @@ import { isGameActive, showModal } from '../../globalState'
 import { isCypress } from '../../standaloneUtils'
 import { playerState } from '../playerState'
 import { sendVideoInteraction, videoCursorInteraction } from '../../customChannels'
-import ridingPlugin from './riding'
 
 function isRideableVehicleEntity (entity?: Entity | null) {
   if (!entity?.name) return false
@@ -64,10 +63,7 @@ export default (bot: Bot) => {
 
   otherListeners()
 
-  // initialize riding plugin so it's active for this bot
-  ridingPlugin(bot)
 }
-
 const otherListeners = () => {
   bot.on('startDigging', (block) => {
     customEvents.emit('digStart')
