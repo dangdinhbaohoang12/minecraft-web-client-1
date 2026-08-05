@@ -63,7 +63,6 @@ export default (bot: Bot) => {
 
   otherListeners()
 
-  
 }
 const otherListeners = () => {
   bot.on('startDigging', (block) => {
