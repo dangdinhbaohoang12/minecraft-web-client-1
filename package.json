@@ -64,7 +64,7 @@
     "browserfs": "github:zardoy/browserfs#build",
     "change-case": "^5.1.2",
     "classnames": "^2.5.1",
-    "compression": "^1.7.4",
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
     "deepslate": "^0.23.5",
