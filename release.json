@@ -1,0 +1,5 @@
+{
+  "latestTag": "v2.2.0",
+  "changelog": "\n\n## [vv2.2.0](releases/tag/vv2.2.0) - 2026-08-05\n<!-- bump-type:minor -->\n### New Features\n\n- **riding**: add passenger/vehicle handlers to set riding state and notify renderer [`b9dc450`](/commit/b9dc450963d9e847c42cae98b4abb187a50d9784)\n- **debug**: Smart Cull + Cave Cull Debug toggles ([#585](/issues/585))\n### Bug Fixes\n\n- include @types/gapi ambient types for Google Drive integration [`ea06381`](/commit/ea06381692f9244774e24296e48d5c4e638949b2)\n- remove unused @vercel/analytics import [`150ca65`](/commit/150ca656809fff6c85ee007487c2249309c72cb3)\n- point mineflayer-mouse at fork's pre-built dist branch [`9d5e5c7`](/commit/9d5e5c765cbb603b17d5477342ca8981fd5d5ce1)\n- point mineflayer-mouse at fork's pre-built dist branch [`1ffba53`](/commit/1ffba5372c603e844298554a876ea13c781f430a)\n- point mineflayer-mouse at fork's pre-built dist branch [`211e301`](/commit/211e301004d1e2073580ac9becc08f53f3b47835)\n- add missing @vercel/analytics dependency [`482fddb`](/commit/482fddb29f38170a532c860841376f59631e3bfc)",
+  "previousTag": "v2.1.0"
+}
