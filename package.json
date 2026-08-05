@@ -71,7 +71,7 @@
     "diff-match-patch": "^1.0.5",
     "esbuild": "^0.19.3",
     "esbuild-plugin-polyfill-node": "^0.3.0",
-    "express": "^4.18.2",
+    "express": "^5.2.1",
     "filesize": "^10.0.12",
     "flying-squid": "npm:@zardoy/flying-squid@^0.0.122",
     "framer-motion": "^12.9.2",
