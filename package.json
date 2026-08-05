@@ -116,7 +116,7 @@
     "use-typed-event-listener": "^4.0.2",
     "valtio": "^1.11.1",
     "vec3": "^0.1.7",
-    "wait-on": "^7.2.0",
+    "wait-on": "^9.1.0",
     "workbox-build": "^7.0.0"
   },
   "devDependencies": {
