@@ -110,7 +110,7 @@
     "source-map-js": "^1.0.2",
     "stats-gl": "^1.0.5",
     "stats.js": "^0.17.0",
-    "tabbable": "^6.2.0",
+    "tabbable": "^6.5.0",
     "title-case": "3.x",
     "ua-parser-js": "^1.0.37",
     "use-typed-event-listener": "^4.0.2",
