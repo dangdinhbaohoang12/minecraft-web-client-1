@@ -62,8 +62,8 @@ export default (bot: Bot) => {
   cursorBlockDisplay(bot)
 
   otherListeners()
-}
 
+}
 const otherListeners = () => {
   bot.on('startDigging', (block) => {
     customEvents.emit('digStart')
