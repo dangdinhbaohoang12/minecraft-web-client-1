@@ -57,7 +57,7 @@ jobs:
       - name: Execute Project Tests
         id: execute_tests
         run: |
-          npm install --legacy-peer-deps
+          pnpm install --legacy-peer-deps
           
           # Chạy test, nếu fail thì ghi nhận kết quả và chuyển tiếp, không nuốt lỗi bằng exit 0
           if ! npm run test; then
