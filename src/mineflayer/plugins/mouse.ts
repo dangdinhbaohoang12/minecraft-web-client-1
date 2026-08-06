@@ -93,6 +93,18 @@ const otherListeners = () => {
 
 const domListeners = (bot: Bot) => {
   const abortController = new AbortController()
+  let mountInFlight = false
+  let mountTimeoutId: NodeJS.Timeout | null = null
+
+  // Clear mount guard when mount completes
+  bot.on('mount', () => {
+    mountInFlight = false
+    if (mountTimeoutId) {
+      clearTimeout(mountTimeoutId)
+      mountTimeoutId = null
+    }
+  })
+
   document.addEventListener('mousedown', (e) => {
     if (e.isTrusted && !document.pointerLockElement && !isCypress()) return
     if (!isGameActive(true)) return
@@ -111,10 +123,23 @@ const domListeners = (bot: Bot) => {
       const cursorEntity = bot.mouse.getCursorState().entity
       // Check if already riding a vehicle - if so, don't try to mount another
       const isRidingVehicle = !!(bot as any).vehicle
-      if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle) {
+      if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle && !mountInFlight) {
+        mountInFlight = true
+        // Clear mount guard after timeout in case mount event never fires
+        mountTimeoutId = setTimeout(() => {
+          mountInFlight = false
+          mountTimeoutId = null
+        }, 2000) // 2 second timeout
         try {
           bot.mount(cursorEntity)
-        } catch {}
+        } catch {
+          // Clear guard on synchronous failure
+          mountInFlight = false
+          if (mountTimeoutId) {
+            clearTimeout(mountTimeoutId)
+            mountTimeoutId = null
+          }
+        }
         return
       }
       bot.rightClickStart()
