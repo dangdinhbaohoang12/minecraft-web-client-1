@@ -23,15 +23,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
-          persist-credentials: false
+          fetch-depth: 0          # Sửa: Lấy toàn bộ lịch sử commit để AI có thể phân tích và tạo nhánh (branch) mới
+          persist-credentials: true # Sửa: Giữ lại quyền đăng nhập để AI commit code lên GitHub được
 
       - name: Run OpenCode
         uses: anomalyco/opencode/github@latest
-        env:
-          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           model: "opencode/deepseek-v4-flash-free"
           args: "--yolo"
           mode: "non-interactive"
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Sửa: Đưa token vào mục "with" theo chuẩn tài liệu OpenCode
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
