@@ -117,32 +117,38 @@ const domListeners = (bot: Bot) => {
       return
     }
 
-    if (e.button === 0) {
-      bot.leftClickStart()
-    } else if (e.button === 2) {
-      const cursorEntity = bot.mouse.getCursorState().entity
-      // Check if already riding a vehicle - if so, don't try to mount another
-      const isRidingVehicle = !!(bot as any).vehicle
-      if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle && !mountInFlight) {
-        mountInFlight = true
-        // Clear mount guard after timeout in case mount event never fires
-        mountTimeoutId = setTimeout(() => {
-          mountInFlight = false
-          mountTimeoutId = null
-        }, 2000) // 2 second timeout
-        try {
-          bot.mount(cursorEntity)
-        } catch {
-          // Clear guard on synchronous failure
-          mountInFlight = false
-          if (mountTimeoutId) {
-            clearTimeout(mountTimeoutId)
+    const actions = {
+      0: () => bot.leftClickStart(),
+      2: () => {
+        const cursorEntity = bot.mouse.getCursorState().entity
+        // Check if already riding a vehicle - if so, don't try to mount another
+        const isRidingVehicle = !!(bot as any).vehicle
+        if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle && !mountInFlight) {
+          mountInFlight = true
+          // Clear mount guard after timeout in case mount event never fires
+          mountTimeoutId = setTimeout(() => {
+            mountInFlight = false
             mountTimeoutId = null
+          }, 2000) // 2 second timeout
+          try {
+            bot.mount(cursorEntity)
+          } catch {
+            // Clear guard on synchronous failure
+            mountInFlight = false
+            if (mountTimeoutId) {
+              clearTimeout(mountTimeoutId)
+              mountTimeoutId = null
+            }
           }
+          return
         }
-        return
-      }
-      bot.rightClickStart()
+        bot.rightClickStart()
+      },
+    }
+
+    const action = actions[e.button]
+    if (action) {
+      action()
     }
   }, { signal: abortController.signal })
 
