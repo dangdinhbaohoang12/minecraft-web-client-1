@@ -94,15 +94,10 @@ const otherListeners = () => {
 const domListeners = (bot: Bot) => {
   const abortController = new AbortController()
   let mountInFlight = false
-  let mountTimeoutId: NodeJS.Timeout | null = null
 
-  // Clear mount guard when mount completes
+  // Clear mount-in-flight flag when mount completes or times out
   bot.on('mount', () => {
     mountInFlight = false
-    if (mountTimeoutId) {
-      clearTimeout(mountTimeoutId)
-      mountTimeoutId = null
-    }
   })
 
   document.addEventListener('mousedown', (e) => {
@@ -125,21 +120,16 @@ const domListeners = (bot: Bot) => {
       const isRidingVehicle = !!(bot as any).vehicle
       if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle && !mountInFlight) {
         mountInFlight = true
-        // Clear mount guard after timeout in case mount event never fires
-        mountTimeoutId = setTimeout(() => {
-          mountInFlight = false
-          mountTimeoutId = null
-        }, 2000) // 2 second timeout
         try {
           bot.mount(cursorEntity)
         } catch {
-          // Clear guard on synchronous failure
+          // Mount failed synchronously, clear the flag
           mountInFlight = false
-          if (mountTimeoutId) {
-            clearTimeout(mountTimeoutId)
-            mountTimeoutId = null
-          }
         }
+        // Safety timeout: clear flag after 5s to prevent stuck state
+        setTimeout(() => {
+          mountInFlight = false
+        }, 5000)
         return
       }
       bot.rightClickStart()

@@ -10,7 +10,7 @@ localSettings.mjs
 dist*
 .DS_Store
 .idea/
-/world
+world
 data*.json
 out
 *.iml
@@ -19,7 +19,5 @@ generated
 storybook-static
 server-jar
 config.local.json
-logs/
 
 src/react/npmReactComponents.ts
-.env*.local
