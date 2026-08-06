@@ -109,7 +109,9 @@ const domListeners = (bot: Bot) => {
       bot.leftClickStart()
     } else if (e.button === 2) {
       const cursorEntity = bot.mouse.getCursorState().entity
-      if (cursorEntity && isRideableVehicleEntity(cursorEntity)) {
+      // Check if already riding a vehicle - if so, don't try to mount another
+      const isRidingVehicle = !!(bot as any).vehicle
+      if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle) {
         try {
           bot.mount(cursorEntity)
         } catch {}
