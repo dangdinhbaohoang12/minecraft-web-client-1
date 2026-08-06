@@ -105,6 +105,29 @@ const domListeners = (bot: Bot) => {
     }
   })
 
+  function handleRightClick() {
+    const cursorEntity = bot.mouse.getCursorState().entity
+    const isRidingVehicle = Boolean((bot as any).vehicle)
+    if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle && !mountInFlight) {
+      mountInFlight = true
+      mountTimeoutId = setTimeout(() => {
+        mountInFlight = false
+        mountTimeoutId = null
+      }, 2000)
+      try {
+        bot.mount(cursorEntity)
+      } catch {
+        mountInFlight = false
+        if (mountTimeoutId) {
+          clearTimeout(mountTimeoutId)
+          mountTimeoutId = null
+        }
+      }
+      return
+    }
+    bot.rightClickStart()
+  }
+
   document.addEventListener('mousedown', (e) => {
     if (e.isTrusted && !document.pointerLockElement && !isCypress()) return
     if (!isGameActive(true)) return
@@ -117,38 +140,14 @@ const domListeners = (bot: Bot) => {
       return
     }
 
-    const actions = {
+    const handlers: { [key: number]: () => void } = {
       0: () => bot.leftClickStart(),
-      2: () => {
-        const cursorEntity = bot.mouse.getCursorState().entity
-        // Check if already riding a vehicle - if so, don't try to mount another
-        const isRidingVehicle = !!(bot as any).vehicle
-        if (cursorEntity && isRideableVehicleEntity(cursorEntity) && !isRidingVehicle && !mountInFlight) {
-          mountInFlight = true
-          // Clear mount guard after timeout in case mount event never fires
-          mountTimeoutId = setTimeout(() => {
-            mountInFlight = false
-            mountTimeoutId = null
-          }, 2000) // 2 second timeout
-          try {
-            bot.mount(cursorEntity)
-          } catch {
-            // Clear guard on synchronous failure
-            mountInFlight = false
-            if (mountTimeoutId) {
-              clearTimeout(mountTimeoutId)
-              mountTimeoutId = null
-            }
-          }
-          return
-        }
-        bot.rightClickStart()
-      },
+      2: handleRightClick,
     }
 
-    const action = actions[e.button]
-    if (action) {
-      action()
+    const handler = handlers[e.button]
+    if (handler) {
+      handler()
     }
   }, { signal: abortController.signal })
 
