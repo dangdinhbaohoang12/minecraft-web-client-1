@@ -205,18 +205,22 @@ export class PlayerStateControllerMain {
     this.reactive.gameMode = bot.game?.gameMode
 
     // Vehicle (minecart/boat/horse) mount state - drives the renderer's seated pose,
-    // eye-height lowering, and third-person camera pivot (see playerStateReactive.isMounted
-    // usages in minecraft-renderer). Without this, riding never visually registers even
-    // though mineflayer correctly tracks bot.vehicle and disables local ground physics.
+    // eye-height lowering, third-person camera pivot, and body-yaw lock (see
+    // playerStateReactive.isMounted/mountedVehicleId usages in minecraft-renderer).
+    // Without this, riding never visually registers even though mineflayer correctly
+    // tracks bot.vehicle and disables local ground physics.
     bot.on('mount', () => {
       this.reactive.isMounted = true
+      this.reactive.mountedVehicleId = (bot as any).vehicle?.id
     })
     bot.on('dismount', () => {
       this.reactive.isMounted = false
+      this.reactive.mountedVehicleId = undefined
     })
     // Cover the case where inject_allowed fires after the player already has a vehicle
     // (e.g. reconnect mid-ride), so state doesn't get stuck at the default `false`.
     this.reactive.isMounted = !!(bot as any).vehicle
+    this.reactive.mountedVehicleId = (bot as any).vehicle?.id
 
     customEvents.on('gameLoaded', () => {
       this.reactive.team = bot.teamMap[bot.username] as any
